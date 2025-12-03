@@ -69,35 +69,35 @@ export function FileUpload({ onFileSelect, isParsing, accept = "image/*,applicat
             onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            className={`relative w-full py-8 border-2 border-dashed rounded-xl transition-all flex flex-col items-center justify-center gap-3 ${isDragging
+            className={`relative w-full py-8 border-2 border-dashed rounded-xl transition-all flex flex-col items-center justify-center gap-3 touch-manipulation ${isDragging
                 ? 'border-blue-500 bg-blue-50'
                 : 'border-gray-200 hover:border-blue-400 hover:bg-gray-50'
-                } ${isParsing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                } ${isParsing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-[0.98]'}`}
         >
             {isParsing ? (
-                <div className="flex items-center gap-3 text-blue-600 pointer-events-none">
+                <div className="flex items-center gap-3 text-blue-600 pointer-events-none select-none">
                     <div className="animate-spin">
                         <Loader2 className="w-6 h-6" />
                     </div>
                     <span className="font-bold text-lg">일정 분석 중...</span>
                 </div>
             ) : (
-                <>
-                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center pointer-events-none">
+                <div className="flex flex-col items-center pointer-events-none select-none w-full">
+                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-2">
                         <Upload className="w-5 h-5 text-gray-500" />
                     </div>
-                    <div className="text-center pointer-events-none">
-                        <p className="text-sm font-medium text-gray-700">클릭하여 이미지/PDF 업로드</p>
-                        <p className="text-xs text-gray-400 mt-1">또는 파일을 여기로 드래그하세요</p>
+                    <div className="text-center px-4">
+                        <p className="text-sm font-medium text-gray-700 break-keep">클릭하여 이미지/PDF 업로드</p>
+                        <p className="text-xs text-gray-400 mt-1 hidden sm:block">또는 파일을 여기로 드래그하세요</p>
                     </div>
-                </>
+                </div>
             )}
             <input
                 type="file"
                 ref={fileInputRef}
                 onChange={handleInputChange}
                 accept={accept}
-                style={{ display: 'none' }}
+                className="hidden"
             />
         </div>
     );
