@@ -6,6 +6,7 @@ import { generateShoppingPlan, parseItineraryFile } from '../utils/ai-service';
 import { createTrip, saveShoppingPlan } from '../utils/db-service';
 import { supabase } from '../supabase/client';
 import { FileUpload } from './FileUpload';
+import { compressImage } from '../utils/image-utils';
 
 interface OnboardingFlowProps {
     onComplete: (info: TravelInfo, plan: ShoppingPlan) => void;
@@ -249,37 +250,44 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
         setIsParsing(true);
         try {
-            const reader = new FileReader();
+            let base64Content = '';
+            let mimeType = file.type;
 
-            reader.onerror = () => {
-                console.error('File reading failed');
-                alert('파일을 읽는데 실패했습니다.');
-                setIsParsing(false);
-            };
-
-            reader.onloadend = async () => {
-                if (!reader.result) {
-                    alert('파일을 읽을 수 없습니다.');
+            if (file.type.startsWith('image/')) {
+                // Compress image to ensure it fits within Vercel's 4.5MB limit
+                base64Content = await compressImage(file);
+                mimeType = 'image/jpeg'; // Compressed output is always JPEG
+            } else {
+                // PDF handling
+                if (file.size > 4 * 1024 * 1024) { // 4MB limit safety buffer
+                    alert('PDF 파일이 너무 큽니다 (4MB 제한). 더 작은 파일을 올려주세요.');
                     setIsParsing(false);
                     return;
                 }
-                const base64String = reader.result as string;
-                const base64Content = base64String.split(',')[1];
 
-                const parsedData = await parseItineraryFile(base64Content, file.type);
+                base64Content = await new Promise<string>((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const result = reader.result as string;
+                        resolve(result.split(',')[1]);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
 
-                if (parsedData.destination) setDestination(parsedData.destination);
-                if (parsedData.startDate) setStartDate(parsedData.startDate);
-                if (parsedData.endDate) setEndDate(parsedData.endDate);
-                if (parsedData.schedule) setSchedule(parsedData.schedule);
+            const parsedData = await parseItineraryFile(base64Content, mimeType);
 
-                alert('여행 일정을 성공적으로 불러왔습니다!');
-                setIsParsing(false);
-            };
-            reader.readAsDataURL(file);
+            if (parsedData.destination) setDestination(parsedData.destination);
+            if (parsedData.startDate) setStartDate(parsedData.startDate);
+            if (parsedData.endDate) setEndDate(parsedData.endDate);
+            if (parsedData.schedule) setSchedule(parsedData.schedule);
+
+            alert('여행 일정을 성공적으로 불러왔습니다!');
+            setIsParsing(false);
         } catch (error) {
             console.error('Parsing failed:', error);
-            alert('일정표 파싱에 실패했습니다.');
+            alert('일정표 파싱에 실패했습니다. 파일이 너무 크거나 형식이 올바르지 않을 수 있습니다.');
             setIsParsing(false);
         }
     };
