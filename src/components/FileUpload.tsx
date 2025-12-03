@@ -97,7 +97,7 @@ export function FileUpload({ onFileSelect, isParsing, accept = "image/*,applicat
                 ref={fileInputRef}
                 onChange={handleInputChange}
                 accept={accept}
-                className="hidden"
+                style={{ display: 'none' }}
             />
         </div>
     );
