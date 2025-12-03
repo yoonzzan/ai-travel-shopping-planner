@@ -9,13 +9,15 @@ interface FileUploadProps {
 
 export function FileUpload({ onFileSelect, isParsing, accept = "image/*,application/pdf" }: FileUploadProps) {
     const [isDragging, setIsDragging] = useState(false);
-    const dragCounter = useRef(0);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleDragEnter = useCallback((e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        dragCounter.current += 1;
+
+        // Check if the drag event is coming from outside the component
+        if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+
         if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
             setIsDragging(true);
         }
@@ -24,23 +26,24 @@ export function FileUpload({ onFileSelect, isParsing, accept = "image/*,applicat
     const handleDragLeave = useCallback((e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        dragCounter.current -= 1;
-        if (dragCounter.current === 0) {
-            setIsDragging(false);
-        }
+
+        // Check if the drag event is leaving to outside the component
+        if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+
+        setIsDragging(false);
     }, []);
 
     const handleDragOver = useCallback((e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        // Necessary to allow dropping
-    }, []);
+        e.dataTransfer.dropEffect = 'copy';
+        if (!isDragging) setIsDragging(true);
+    }, [isDragging]);
 
     const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setIsDragging(false);
-        dragCounter.current = 0;
 
         if (isParsing) return;
 
