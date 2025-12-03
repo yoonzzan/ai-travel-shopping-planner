@@ -1,23 +1,40 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+interface ScheduleItem {
+  day: number;
+  date: string;
+  location: string;
+}
+
+interface TravelInfo {
+  destination: string;
+  startDate: string;
+  endDate: string;
+  budget: number;
+  companions: string[];
+  preferences: string[];
+  purposes: string[];
+  schedule: ScheduleItem[];
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method Not Allowed' });
-    }
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
 
-    const { travelInfo, guideRecommendations } = req.body;
-    const API_KEY = process.env.GEMINI_API_KEY;
+  const { travelInfo, guideRecommendations } = req.body as { travelInfo: TravelInfo; guideRecommendations: string };
+  const API_KEY = process.env.GEMINI_API_KEY;
 
-    if (!API_KEY) {
-        return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
-    }
+  if (!API_KEY) {
+    return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
+  }
 
-    try {
-        const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  try {
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-        const prompt = `
+    const prompt = `
       You are a professional travel shopping planner.
       Create a detailed shopping plan for a trip to ${travelInfo.destination}.
       
@@ -28,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       - Interests: ${travelInfo.preferences.join(', ')}
       - Purpose: ${travelInfo.purposes.join(', ')}
       - Daily Schedule:
-      ${travelInfo.schedule?.map(s => `      Day ${s.day} (${s.date}): ${s.location}`).join('\n') || 'Not specified'}
+      ${travelInfo.schedule?.map((s: ScheduleItem) => `      Day ${s.day} (${s.date}): ${s.location}`).join('\n') || 'Not specified'}
   
       ${guideRecommendations}
   
@@ -136,23 +153,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     `;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
 
-        let jsonStr = text.replace(/```json\n?|\n?```/g, '').trim();
-        const firstBrace = jsonStr.indexOf('{');
-        const lastBrace = jsonStr.lastIndexOf('}');
-        if (firstBrace !== -1 && lastBrace !== -1) {
-            jsonStr = jsonStr.substring(firstBrace, lastBrace + 1);
-        }
-        jsonStr = jsonStr.replace(/,\s*([\]}])/g, '$1');
-
-        const json = JSON.parse(jsonStr);
-        res.status(200).json(json);
-
-    } catch (error) {
-        console.error('API Error:', error);
-        res.status(500).json({ error: error.message });
+    let jsonStr = text.replace(/```json\n?|\n?```/g, '').trim();
+    const firstBrace = jsonStr.indexOf('{');
+    const lastBrace = jsonStr.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+      jsonStr = jsonStr.substring(firstBrace, lastBrace + 1);
     }
+    jsonStr = jsonStr.replace(/,\s*([\]}])/g, '$1');
+
+    const json = JSON.parse(jsonStr);
+    res.status(200).json(json);
+
+  } catch (error) {
+    console.error('API Error:', error);
+    res.status(500).json({ error: (error as Error).message });
+  }
 }
