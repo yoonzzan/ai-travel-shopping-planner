@@ -1,0 +1,979 @@
+{
+    "recommendations": [
+        {
+            "city": "방콕",
+            "country": "태국",
+            "searchTerms": [
+                "Bangkok",
+                "Thailand",
+                "방콕",
+                "태국"
+            ],
+            "items": [
+                {
+                    "name": "나라야 파우치",
+                    "description": "선물용으로 최고",
+                    "shop": "센트럴 월드",
+                    "estimatedPrice": 0,
+                    "localPrice": 15000,
+                    "currency": "THB",
+                    "category": "패션"
+                }
+            ]
+        },
+        {
+            "city": "다낭",
+            "country": "베트남",
+            "searchTerms": [
+                "Danang",
+                "Vietnam",
+                "다낭",
+                "베트남"
+            ],
+            "items": [
+                {
+                    "name": "아치카페",
+                    "description": "코코넛 커피",
+                    "shop": "롯데마트",
+                    "estimatedPrice": 0,
+                    "localPrice": 3500,
+                    "currency": "VND",
+                    "category": "식품"
+                }
+            ]
+        },
+        {
+            "city": "도쿄",
+            "country": "일본",
+            "searchTerms": [
+                "Tokyo",
+                "Japan",
+                "도쿄",
+                "일본"
+            ],
+            "items": [
+                {
+                    "name": "카베진 코와 알파",
+                    "description": "양배추 유래 성분의 국민 위장약 (300정)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1700,
+                    "currency": "YEN",
+                    "category": "의약품"
+                },
+                {
+                    "name": "오타이산 (캔)",
+                    "description": "가루형 생약 소화제, 속쓰림에 탁월",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "EVE 퀵 DX",
+                    "description": "두통, 생리통에 빠른 효과 (40정)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1100,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "로이히츠보코",
+                    "description": "붙이기 쉬운 동전 모양의 온열 파스 (156매)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "샤론파스 Ae",
+                    "description": "혈액순환 촉진, 근육통 완화 국민 파스 (140매)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1100,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "페어 아크네 크림",
+                    "description": "성인 여드름, 뾰루지 진정 크림 (24g)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 900,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "브이 로토 프리미엄",
+                    "description": "스마트폰 눈 피로, 충혈 제거 고급 안약",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1500,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "로토 리세 (콘택트)",
+                    "description": "렌즈 착용 중 사용 가능한 쿨링 안약",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 500,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "구내염 패치 다이쇼 A",
+                    "description": "입안 헐었을 때 붙이는 패치 (10매)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 800,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "파브론 골드 A",
+                    "description": "초기 감기에 좋은 가루약 (44포)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1400,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "사카무케아",
+                    "description": "손 거스러미, 상처에 바르는 액체 반창고",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "쇼콜라 BB 루센트 C",
+                    "description": "기미, 주근깨 완화 및 피로 회복 비타민",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 2800,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "무히 패치 A",
+                    "description": "모기 물린 곳에 붙이는 호빵맨 패치 (76매)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 600,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "코락쿠",
+                    "description": "만성 변비에 효과 빠른 핑크 소립 약",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "노도누루 스프레이",
+                    "description": "목 아플 때 뿌리는 살균 소독제",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "의약품"
+                },
+                {
+                    "name": "센카 퍼펙트 휩",
+                    "description": "쫀쫀한 거품으로 유명한 국민 클렌저",
+                    "shop": "돈키호테/편의점",
+                    "estimatedPrice": 0,
+                    "localPrice": 450,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "수이사이 파우더 워시",
+                    "description": "낱개 포장된 각질 제거 효소 파우더",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1800,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "비오레 UV 아쿠아리치",
+                    "description": "끈적임 없는 수분 에센스 타입 선크림",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 800,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "스킨아쿠아 톤업 UV",
+                    "description": "자연스러운 톤업 효과와 자외선 차단",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "키스미 히로인 메이크",
+                    "description": "번짐 없이 강력한 워터프루프 마스카라",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "캔메이크 크림 치크",
+                    "description": "발색이 자연스럽고 저렴한 크림 블러셔",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 600,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "피노 프리미엄 터치",
+                    "description": "손상모 복구에 탁월한 가성비 헤어팩",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "&Honey (앤허니)",
+                    "description": "꿀 성분 함유, 향기 좋은 헤어 오일",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1500,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "하다라보 고쿠쥰 로션",
+                    "description": "히알루론산 함유 고보습 스킨 (리필용 추천)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "두유 이소플라본 스킨",
+                    "description": "끈적임 없고 순한 보습 스킨",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 600,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "케아나 나데시코 쌀 마스크",
+                    "description": "쌀 추출물로 모공 케어에 좋은 시트팩",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "루루룬 마스크 (대용량)",
+                    "description": "매일 쓰기 좋은 데일리 마스크팩 (32매)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1800,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "멜라노 CC 에센스",
+                    "description": "비타민 C 함유, 여드름 흉터/미백 케어",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1100,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "니베아 딜리셔스 드롭",
+                    "description": "일본 한정 복숭아/사과향 립밤",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 350,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "바브 (Babu)",
+                    "description": "피로 회복에 좋은 탄산 입욕제 세트",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 500,
+                    "currency": "JPY",
+                    "category": "화장품"
+                },
+                {
+                    "name": "킷캣 (녹차/사케 등)",
+                    "description": "일본 한정 다양한 맛 (봉지형)",
+                    "shop": "돈키호테/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 300,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "알포트 (Alfort)",
+                    "description": "빈츠 스타일의 진한 초코 비스킷",
+                    "shop": "돈키호테/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 100,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "오리히로 곤약젤리 (파우치)",
+                    "description": "짜먹는 타입 곤약젤리 (복숭아/포도 등)",
+                    "shop": "돈키호테/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 150,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "코로로 젤리",
+                    "description": "과일 식감이 살아있는 젤리 (포도/청포도)",
+                    "shop": "편의점/돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 120,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "퓨레 구미 (Pure)",
+                    "description": "새콤달콤한 하트 모양 젤리",
+                    "shop": "편의점/돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 130,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "자가비 (Jagabee)",
+                    "description": "바삭한 감자 스틱 과자",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 250,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "자가리코",
+                    "description": "컵에 든 딱딱하고 바삭한 감자 스틱",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 150,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "블랙썬더",
+                    "description": "저렴하고 맛있는 국민 초코바",
+                    "shop": "편의점/돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 30,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "우마이봉",
+                    "description": "다양한 맛의 옥수수봉 과자 (대용량)",
+                    "shop": "돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 300,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "메이지 마카다미아",
+                    "description": "통 마카다미아가 들어간 고급 초콜릿",
+                    "shop": "슈퍼마켓/돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 200,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "타케노코노사토",
+                    "description": "죽순 모양의 초코 과자 (버섯산 라이벌)",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 200,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "훈와리 메이진 (콩가루)",
+                    "description": "입에서 녹는 인절미 맛 모찌 과자",
+                    "shop": "돈키호테/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 250,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "민티아 (Mintia)",
+                    "description": "얇고 작은 케이스의 에티켓 캔디",
+                    "shop": "편의점",
+                    "estimatedPrice": 0,
+                    "localPrice": 100,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "장미 캔디 (후와링카)",
+                    "description": "먹으면 몸에서 장미향이 난다는 캔디",
+                    "shop": "돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 120,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "치타라",
+                    "description": "치즈와 대구포가 결합된 국민 안주",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 300,
+                    "currency": "JPY",
+                    "category": "간식"
+                },
+                {
+                    "name": "닛신 컵누들 (씨푸드)",
+                    "description": "건더기가 풍부한 해물맛 컵라면",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 230,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "닛신 돈베이 유부우동",
+                    "description": "커다란 유부가 들어간 우동",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 230,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "UFO 야키소바",
+                    "description": "짭조름한 소스 맛의 비빔 컵라면",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 230,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "이치란 라멘 (봉지)",
+                    "description": "이치란 라멘을 집에서 즐기는 키트 (5입)",
+                    "shop": "돈키호테/이치란",
+                    "estimatedPrice": 0,
+                    "localPrice": 2000,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "골든 커리 (고형)",
+                    "description": "진하고 풍미 깊은 일본식 고형 카레",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 250,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "버몬트 커리",
+                    "description": "사과와 꿀이 들어간 부드러운 카레",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 250,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "큐피 마요네즈",
+                    "description": "고소하고 진한 맛의 튜브형 마요네즈",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 300,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "튜브 와사비/생강",
+                    "description": "휴대하기 좋은 튜브형 향신료",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 120,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "아지노모토 혼다시",
+                    "description": "국물 요리에 필수인 가쓰오부시 조미료",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 400,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "불독 돈까스 소스",
+                    "description": "튀김 요리에 어울리는 진한 소스",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 250,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "유즈코쇼 (유자후추)",
+                    "description": "고기, 국물에 넣어 먹는 유자 고추 페이스트",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 300,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "노리타마",
+                    "description": "밥에 뿌려 먹는 계란/김 맛 가루",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 200,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "보노 스프 (분말)",
+                    "description": "물만 부으면 되는 진한 콘스프",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 250,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "즉석 미소 장국",
+                    "description": "뜨거운 물만 부으면 완성되는 된장국",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 300,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "블렌디 포션 커피",
+                    "description": "우유에 타 먹는 농축 액상 커피",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 200,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "이토엔 오이오차 (티백)",
+                    "description": "깔끔한 맛의 녹차 티백",
+                    "shop": "슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 400,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "산토리 가쿠빈",
+                    "description": "하이볼용으로 가장 인기 있는 위스키",
+                    "shop": "돈키호테/리커샵",
+                    "estimatedPrice": 0,
+                    "localPrice": 1600,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "니카 블랙 클리어",
+                    "description": "가성비 좋은 하이볼용 위스키",
+                    "shop": "돈키호테/편의점",
+                    "estimatedPrice": 0,
+                    "localPrice": 800,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "닷사이 23",
+                    "description": "선물용으로 최고인 고급 준마이 다이긴죠",
+                    "shop": "공항면세점/리커샵",
+                    "estimatedPrice": 0,
+                    "localPrice": 5700,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "쿠보타 만쥬",
+                    "description": "부드러운 목넘김의 고급 사케",
+                    "shop": "공항면세점/리커샵",
+                    "estimatedPrice": 0,
+                    "localPrice": 4000,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "간바레 오토상",
+                    "description": "저렴하게 즐기는 대용량 사케 (900ml)",
+                    "shop": "슈퍼마켓/돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 900,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "초야 우메슈 (매실알)",
+                    "description": "매실 열매가 들어있는 달콤한 술",
+                    "shop": "슈퍼마켓/돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 1000,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "호로요이",
+                    "description": "알코올 3%의 과일 탄산주 (복숭아 등)",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 110,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "스트롱 제로",
+                    "description": "알코올 9%의 강력한 레몬 탄산주",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 110,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "에비스 맥주",
+                    "description": "깊고 진한 맛의 프리미엄 맥주",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 250,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "아사히 슈퍼드라이 생",
+                    "description": "뚜껑 전체가 열려 거품이 나는 캔맥주",
+                    "shop": "편의점/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 220,
+                    "currency": "JPY",
+                    "category": "주류"
+                },
+                {
+                    "name": "메구리즘 수면안대",
+                    "description": "따뜻한 스팀이 나오는 일회용 안대 (12매)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1000,
+                    "currency": "JPY",
+                    "category": "생활"
+                },
+                {
+                    "name": "아시리라 수액 시트",
+                    "description": "발바닥 독소를 빼주는 대나무 수액 패치",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 1900,
+                    "currency": "JPY",
+                    "category": "생활"
+                },
+                {
+                    "name": "휴족시간",
+                    "description": "다리 붓기를 빼주는 쿨링 시트 (18매)",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 600,
+                    "currency": "JPY",
+                    "category": "생활"
+                },
+                {
+                    "name": "피타 마스크",
+                    "description": "연예인 마스크로 유명한 우레탄 마스크",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 500,
+                    "currency": "JPY",
+                    "category": "생활"
+                },
+                {
+                    "name": "보르도 젤볼",
+                    "description": "캡슐형 세탁 세제 (향기 지속력 우수)",
+                    "shop": "돈키호테/슈퍼마켓",
+                    "estimatedPrice": 0,
+                    "localPrice": 500,
+                    "currency": "JPY",
+                    "category": "생활"
+                },
+                {
+                    "name": "파일롯 프릭션 볼펜",
+                    "description": "지워지는 볼펜 (리필심 포함 구매 추천)",
+                    "shop": "로프트/문구점",
+                    "estimatedPrice": 0,
+                    "localPrice": 230,
+                    "currency": "JPY",
+                    "category": "문구"
+                },
+                {
+                    "name": "제브라 마일드라이너",
+                    "description": "눈이 편안한 색상의 형광펜 세트",
+                    "shop": "로프트/문구점",
+                    "estimatedPrice": 0,
+                    "localPrice": 500,
+                    "currency": "JPY",
+                    "category": "문구"
+                },
+                {
+                    "name": "유니클로 히트텍/에어리즘",
+                    "description": "한국보다 저렴하고 종류가 다양함",
+                    "shop": "유니클로",
+                    "estimatedPrice": 0,
+                    "localPrice": 990,
+                    "currency": "JPY",
+                    "category": "의류"
+                },
+                {
+                    "name": "GU 잠옷",
+                    "description": "귀여운 디자인과 저렴한 가격의 파자마",
+                    "shop": "GU",
+                    "estimatedPrice": 0,
+                    "localPrice": 2000,
+                    "currency": "JPY",
+                    "category": "의류"
+                },
+                {
+                    "name": "3COINS 잡화",
+                    "description": "300엔 균일가 생활 잡화 (주방/수납 등)",
+                    "shop": "3COINS",
+                    "estimatedPrice": 0,
+                    "localPrice": 330,
+                    "currency": "JPY",
+                    "category": "잡화"
+                },
+                {
+                    "name": "튜튜안나 양말",
+                    "description": "3족 1000엔의 귀여운 양말 전문점",
+                    "shop": "튜튜안나",
+                    "estimatedPrice": 0,
+                    "localPrice": 1100,
+                    "currency": "JPY",
+                    "category": "의류"
+                },
+                {
+                    "name": "브랜드 손수건",
+                    "description": "비비안웨스트우드, 폴로 등 명품 손수건",
+                    "shop": "백화점 1층",
+                    "estimatedPrice": 0,
+                    "localPrice": 1000,
+                    "currency": "JPY",
+                    "category": "잡화"
+                },
+                {
+                    "name": "아츠기 스타킹",
+                    "description": "올이 잘 나가지 않고 자연스러운 스타킹",
+                    "shop": "돈키호테/드럭스토어",
+                    "estimatedPrice": 0,
+                    "localPrice": 500,
+                    "currency": "JPY",
+                    "category": "의류"
+                },
+                {
+                    "name": "WPC 양우산",
+                    "description": "초경량 미니 양산 겸 우산",
+                    "shop": "로프트/백화점",
+                    "estimatedPrice": 0,
+                    "localPrice": 2500,
+                    "currency": "JPY",
+                    "category": "잡화"
+                },
+                {
+                    "name": "도쿄 바나나",
+                    "description": "바나나 커스터드 크림이 든 빵 (8개입)",
+                    "shop": "공항/역사",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "도쿄 밀크 치즈 팩토리",
+                    "description": "솔트&카망베르 맛 쿠키 (10개입)",
+                    "shop": "공항/백화점",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "히요코 만쥬",
+                    "description": "병아리 모양의 앙금 빵",
+                    "shop": "공항/역사",
+                    "estimatedPrice": 0,
+                    "localPrice": 1100,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "넘버슈가",
+                    "description": "수제 카라멜 세트 (오모테산도 명물)",
+                    "shop": "넘버슈가 매장",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "시로이 코이비토",
+                    "description": "화이트 초콜릿이 샌드된 쿠키 (12개입)",
+                    "shop": "공항면세점",
+                    "estimatedPrice": 0,
+                    "localPrice": 900,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "로이즈 생초콜릿",
+                    "description": "입에서 녹는 생초콜릿 (보냉포장 필수)",
+                    "shop": "공항면세점",
+                    "estimatedPrice": 0,
+                    "localPrice": 800,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "르타오 치즈케이크",
+                    "description": "더블 프로마쥬 치즈 케이크",
+                    "shop": "공항면세점",
+                    "estimatedPrice": 0,
+                    "localPrice": 2000,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "자가포쿠루",
+                    "description": "홋카이도 감자로 만든 프리미엄 스틱 과자",
+                    "shop": "공항면세점",
+                    "estimatedPrice": 0,
+                    "localPrice": 1000,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "명란 튜브",
+                    "description": "밥에 짜먹는 멘타이코 (명란)",
+                    "shop": "공항/역사",
+                    "estimatedPrice": 0,
+                    "localPrice": 700,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "하카타 토리몬",
+                    "description": "버터와 앙금이 어우러진 만쥬",
+                    "shop": "공항/역사",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "리쿠로 오지상 치즈케이크",
+                    "description": "갓 구운 폭신한 치즈케이크",
+                    "shop": "난바 본점",
+                    "estimatedPrice": 0,
+                    "localPrice": 900,
+                    "currency": "JPY",
+                    "category": "식품"
+                },
+                {
+                    "name": "말차 바움쿠헨",
+                    "description": "교토 우지 말차를 사용한 빵",
+                    "shop": "기념품샵",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "기념품"
+                },
+                {
+                    "name": "산리오/치이카와 굿즈",
+                    "description": "키링, 인형 등 캐릭터 잡화",
+                    "shop": "키디랜드/돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 1500,
+                    "currency": "JPY",
+                    "category": "잡화"
+                },
+                {
+                    "name": "포켓몬 센터 인형",
+                    "description": "일본 한정 포켓몬 굿즈",
+                    "shop": "포켓몬 센터",
+                    "estimatedPrice": 0,
+                    "localPrice": 2000,
+                    "currency": "JPY",
+                    "category": "잡화"
+                },
+                {
+                    "name": "손톱깍이 (카이/그린벨)",
+                    "description": "절삭력 좋고 튀지 않는 장인 손톱깍이",
+                    "shop": "돈키호테",
+                    "estimatedPrice": 0,
+                    "localPrice": 1200,
+                    "currency": "JPY",
+                    "category": "생활"
+                }
+            ]
+        },
+        {
+            "city": "서울",
+            "country": "대한민국",
+            "searchTerms": [
+                "Seoul",
+                "South Korea",
+                "서울",
+                "대한민국"
+            ],
+            "items": [
+                {
+                    "name": "김밥",
+                    "description": "맛있음",
+                    "shop": "김밥천국",
+                    "estimatedPrice": 3000,
+                    "localPrice": 3000,
+                    "currency": "KRW",
+                    "category": "생활"
+                }
+            ]
+        }
+    ]
+}
