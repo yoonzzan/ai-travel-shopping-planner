@@ -57,8 +57,16 @@ export async function generateShoppingPlan(travelInfo: TravelInfo): Promise<Shop
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to generate plan');
+      const errorText = await response.text();
+      let errorMessage = `Server error: ${response.status}`;
+      try {
+        const errorJson = JSON.parse(errorText);
+        if (errorJson.error) errorMessage = errorJson.error;
+      } catch {
+        // If not JSON, use the raw text (truncated if too long)
+        errorMessage = `Server Error (${response.status}): ${errorText.slice(0, 100)}`;
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();
@@ -68,12 +76,7 @@ export async function generateShoppingPlan(travelInfo: TravelInfo): Promise<Shop
   }
 }
 
-export async function parseItineraryFile(fileBase64: string, mimeType: string): Promise<{
-  destination: string;
-  startDate: string;
-  endDate: string;
-  schedule: { day: number; date: string; location: string }[];
-}> {
+export async function parseItineraryFile(fileBase64: string, mimeType: string): Promise<Partial<TravelInfo>> {
   try {
     const response = await fetch('/api/parse-itinerary', {
       method: 'POST',
@@ -84,8 +87,15 @@ export async function parseItineraryFile(fileBase64: string, mimeType: string): 
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to parse itinerary');
+      const errorText = await response.text();
+      let errorMessage = `Server error: ${response.status}`;
+      try {
+        const errorJson = JSON.parse(errorText);
+        if (errorJson.error) errorMessage = errorJson.error;
+      } catch {
+        errorMessage = `Server Error (${response.status}): ${errorText.slice(0, 100)}`;
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();
