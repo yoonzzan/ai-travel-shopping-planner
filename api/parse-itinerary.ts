@@ -2,18 +2,24 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+    console.log('[API] parse-itinerary started');
+
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     const { fileBase64, mimeType } = req.body;
+    console.log(`[API] Received request. MimeType: ${mimeType}, Base64 Length: ${fileBase64?.length}`);
+
     const API_KEY = process.env.GEMINI_API_KEY;
 
     if (!API_KEY) {
+        console.error('[API] Error: Missing API Key');
         return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
     }
 
     try {
+        console.log('[API] Initializing Gemini...');
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite-preview-09-2025' });
 
@@ -42,9 +48,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             },
         };
 
+        console.log('[API] Sending request to Gemini...');
         const result = await model.generateContent([prompt, filePart]);
+        console.log('[API] Received response from Gemini');
+
         const response = await result.response;
         const text = response.text();
+        console.log('[API] Raw response text length:', text.length);
 
         // Clean up JSON string
         let jsonStr = text.replace(/```json\n?|\n?```/g, '').trim();
@@ -56,10 +66,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const json = JSON.parse(jsonStr);
+        console.log('[API] JSON parsed successfully');
 
         res.status(200).json(json);
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('[API] Error occurred:', error);
         res.status(500).json({ error: (error as Error).message });
     }
 }
