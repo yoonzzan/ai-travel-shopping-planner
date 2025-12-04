@@ -1,7 +1,11 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
+export const config = {
+    maxDuration: 60,
+};
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    console.log('[API] parse-itinerary started (Lightweight Fetch Version)');
+    console.log('[API] parse-itinerary v3 (Fetch + Config) started');
 
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
