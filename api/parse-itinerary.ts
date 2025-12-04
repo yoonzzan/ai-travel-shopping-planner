@@ -1,28 +1,19 @@
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export const config = {
-    runtime: 'edge',
-};
-
-export default async function handler(req: Request) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
-            status: 405,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return res.status(405).json({ error: 'Method Not Allowed' });
+    }
+
+    const { fileBase64, mimeType } = req.body;
+    const API_KEY = process.env.GEMINI_API_KEY;
+
+    if (!API_KEY) {
+        return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
     }
 
     try {
-        const { fileBase64, mimeType } = await req.json();
-        const API_KEY = process.env.GEMINI_API_KEY;
-
-        if (!API_KEY) {
-            return new Response(JSON.stringify({ error: 'Server configuration error: Missing API Key' }), {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
-
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite-preview-09-2025' });
 
@@ -66,15 +57,9 @@ export default async function handler(req: Request) {
 
         const json = JSON.parse(jsonStr);
 
-        return new Response(JSON.stringify(json), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        res.status(200).json(json);
     } catch (error) {
         console.error('API Error:', error);
-        return new Response(JSON.stringify({ error: (error as Error).message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        res.status(500).json({ error: (error as Error).message });
     }
 }
