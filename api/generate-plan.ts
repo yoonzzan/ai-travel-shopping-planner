@@ -86,15 +86,8 @@ export default async function handler(req: Request) {
       - For EACH item, specify the "shopName" or "mallName" where it can be purchased (e.g., "Big C Market", "Central World").
       - **ROUTE OPTIMIZATION**: Sort the items list logically by shopName within each day. Group items that can be bought at the same place together.
   
-      **JSON FORMATTING RULES**:
-      - Output MUST be valid JSON.
-      - **NO trailing commas** in arrays or objects (this is the most common error).
-      - All keys MUST be double-quoted.
-      - Do not include comments in the JSON.
-      - Ensure the JSON is complete and ends with "}".
-  
-      Please provide the response in the following JSON format ONLY, no markdown.
-      IMPORTANT: All text content (location names, product names, reasons, tips, etc.) MUST be in Korean.
+      **JSON RESPONSE FORMAT**:
+      You must return a single valid JSON object matching the structure below.
       {
         "dutyFree": {
           "departure": {
@@ -163,7 +156,7 @@ export default async function handler(req: Request) {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-lite-preview-09-2025',
+      model: 'gemini-1.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
