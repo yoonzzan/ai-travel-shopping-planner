@@ -65,8 +65,8 @@ export default async function handler(req: Request) {
       - Consider the user's budget and interests.
       - **BALANCED RECOMMENDATION STRATEGY (30:70 Rule)**:
         1. **Guide Recommendations (approx. 30%)**: Select only the top 2-3 "Must-Buy" items from the provided guide data that best fit the user's profile. These are the "safe bets".
-        2. **AI Recommendations (approx. 70%)**: Fill the rest with UNIQUE, TRENDY, and PERSONALIZED items based on the user's specific interests and current trends. Surprise the user with hidden gems that are NOT in the guide data.
-      - **Avoid Repetition**: Do not just list everything from the guide. Curate strictly.
+        2. **AI Recommendations (approx. 70%)**: Fill the rest with UNIQUE, TRENDY, and PERSONALIZED items based on the user's specific interests and current trends. Surprise the user with hidden gems that are NOT in the guide data. **DO NOT duplicate items already selected from the guide.**
+      - **Avoid Repetition**: Do not just list everything from the guide. Curate strictly. Ensure AI recommendations are distinct from Guide recommendations.
       
       **PRICE INSTRUCTION**:
       - You MUST estimate the price for every item. Do NOT return 0.
