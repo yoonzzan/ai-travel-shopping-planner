@@ -155,12 +155,12 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
                         </div>
                         <div className="flex-1 min-w-0">
                           <p
-                            className={`text-sm truncate ${item.purchased ? 'text-gray-500 line-through decoration-gray-400' : 'text-gray-700 font-medium'}`}
+                            className={`text-sm truncate ${item.purchased ? 'text-gray-400 line-through' : 'text-gray-700 font-medium'}`}
                           >
                             {item.product}
                           </p>
                           <p
-                            className={`text-xs ${item.purchased ? 'text-gray-400 line-through decoration-gray-400' : 'text-gray-400'}`}
+                            className={`text-xs ${item.purchased ? 'text-gray-400 line-through' : 'text-gray-400'}`}
                           >
                             {item.estimatedPrice.toLocaleString()}원
                           </p>
@@ -251,12 +251,12 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
                                 </div>
                                 <div className="min-w-0">
                                   <p
-                                    className={`text-sm truncate ${item.purchased ? 'text-gray-500 line-through decoration-gray-400' : 'text-gray-700 font-medium'}`}
+                                    className={`text-sm truncate ${item.purchased ? 'text-gray-400 line-through' : 'text-gray-700 font-medium'}`}
                                   >
                                     {item.product}
                                   </p>
                                   <p
-                                    className={`text-xs ${item.purchased ? 'text-gray-400 line-through decoration-gray-400' : 'text-gray-400'}`}
+                                    className={`text-xs ${item.purchased ? 'text-gray-400 line-through' : 'text-gray-400'}`}
                                   >
                                     {item.estimatedPrice.toLocaleString()}원
                                   </p>
@@ -316,12 +316,12 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
                         </div>
                         <div className="flex-1 min-w-0">
                           <p
-                            className={`text-sm truncate ${item.purchased ? 'text-gray-500 line-through decoration-gray-400' : 'text-gray-700 font-medium'}`}
+                            className={`text-sm truncate ${item.purchased ? 'text-gray-400 line-through' : 'text-gray-700 font-medium'}`}
                           >
                             {item.product}
                           </p>
                           <p
-                            className={`text-xs ${item.purchased ? 'text-gray-400 line-through decoration-gray-400' : 'text-gray-400'}`}
+                            className={`text-xs ${item.purchased ? 'text-gray-400 line-through' : 'text-gray-400'}`}
                           >
                             {item.estimatedPrice.toLocaleString()}원
                           </p>
