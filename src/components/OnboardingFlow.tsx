@@ -371,7 +371,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start pt-10 md:pt-20 p-4 pb-10">
+        <div className="min-h-[100dvh] bg-gray-50 flex flex-col items-center justify-start pt-10 md:pt-20 p-4 pb-10 pb-[env(safe-area-inset-bottom)]">
             {/* Progress Stepper - Hide on step 5 (Analysis) */}
             {step !== 5 && (
                 <div className="w-full max-w-2xl mb-8">
