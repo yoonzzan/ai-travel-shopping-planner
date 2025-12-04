@@ -2,16 +2,39 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 
 export const config = {
     maxDuration: 60,
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb',
+        },
+    },
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    console.log('[API] parse-itinerary v3 (Fetch + Config) started');
+    console.log('[API] parse-itinerary v4 (Robust Body Parsing) started');
 
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    const { fileBase64, mimeType } = req.body;
+    let body = req.body;
+
+    // Manual parsing if body is string (sometimes happens in Vercel functions depending on content-type)
+    if (typeof body === 'string') {
+        try {
+            body = JSON.parse(body);
+        } catch (e) {
+            console.error('[API] Failed to parse body:', e);
+            return res.status(400).json({ error: 'Invalid JSON body' });
+        }
+    }
+
+    const { fileBase64, mimeType } = body || {};
+
+    if (!fileBase64 || !mimeType) {
+        console.error('[API] Missing fileBase64 or mimeType');
+        return res.status(400).json({ error: 'Missing fileBase64 or mimeType in request body' });
+    }
+
     console.log(`[API] Received request. MimeType: ${mimeType}, Base64 Length: ${fileBase64?.length}`);
 
     const API_KEY = process.env.GEMINI_API_KEY;
