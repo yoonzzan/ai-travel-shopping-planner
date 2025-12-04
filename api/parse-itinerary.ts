@@ -10,7 +10,7 @@ export const config = {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    console.log('[API] parse-itinerary v4 (Robust Body Parsing) started');
+    console.log('[API] parse-itinerary v5 (Base64 Strip) started');
 
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
@@ -18,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     let body = req.body;
 
-    // Manual parsing if body is string (sometimes happens in Vercel functions depending on content-type)
+    // Manual parsing if body is string
     if (typeof body === 'string') {
         try {
             body = JSON.parse(body);
@@ -28,11 +28,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
     }
 
-    const { fileBase64, mimeType } = body || {};
+    let { fileBase64, mimeType } = body || {};
 
     if (!fileBase64 || !mimeType) {
         console.error('[API] Missing fileBase64 or mimeType');
         return res.status(400).json({ error: 'Missing fileBase64 or mimeType in request body' });
+    }
+
+    // Strip base64 prefix if present (e.g., "data:image/jpeg;base64,")
+    if (fileBase64.includes('base64,')) {
+        console.log('[API] Stripping base64 prefix...');
+        fileBase64 = fileBase64.split('base64,')[1];
     }
 
     console.log(`[API] Received request. MimeType: ${mimeType}, Base64 Length: ${fileBase64?.length}`);
