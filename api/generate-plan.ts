@@ -163,7 +163,7 @@ export default async function handler(req: Request) {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-lite-preview-02-05',
+      model: 'gemini-2.5-flash-preview-09-2025',
       contents: prompt,
     });
 
