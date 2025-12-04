@@ -314,6 +314,13 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
             const shoppingPlan = await generateShoppingPlan(travelInfo);
 
+            // Regenerate IDs to ensure uniqueness (fix for potential AI duplicate IDs)
+            shoppingPlan.dutyFree.departure.items.forEach(item => item.id = crypto.randomUUID());
+            shoppingPlan.dutyFree.arrival.items.forEach(item => item.id = crypto.randomUUID());
+            Object.values(shoppingPlan.cityShopping).forEach(location => {
+                location.items.forEach(item => item.id = crypto.randomUUID());
+            });
+
             // Deduplicate items in cityShopping to prevent AI hallucinations
             Object.values(shoppingPlan.cityShopping).forEach(location => {
                 const seenProducts = new Set();
@@ -410,7 +417,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                             </div>
 
                             <div className="space-y-6">
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3">
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">출발일</label>
                                         <input
