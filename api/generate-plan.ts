@@ -163,11 +163,14 @@ export default async function handler(req: Request) {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-exp',
+      model: 'gemini-2.0-flash-lite-preview-02-05',
       contents: prompt,
     });
 
     const text = response.text;
+    if (!text) {
+      throw new Error('No response text generated from AI model');
+    }
 
     let jsonStr = text.replace(/```json\n?|\n?```/g, '').trim();
     const firstBrace = jsonStr.indexOf('{');
