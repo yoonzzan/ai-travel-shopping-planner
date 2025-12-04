@@ -15,7 +15,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
         const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
 
         const prompt = `
       Analyze this travel itinerary file (image or PDF).
@@ -45,7 +45,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const result = await model.generateContent([prompt, filePart]);
         const response = await result.response;
         const text = response.text();
-        const jsonStr = text.replace(/```json\n?|\n?```/g, '');
+
+        // Clean up JSON string
+        let jsonStr = text.replace(/```json\n?|\n?```/g, '').trim();
+        // Ensure we only have the JSON object
+        const firstBrace = jsonStr.indexOf('{');
+        const lastBrace = jsonStr.lastIndexOf('}');
+        if (firstBrace !== -1 && lastBrace !== -1) {
+            jsonStr = jsonStr.substring(firstBrace, lastBrace + 1);
+        }
+
         const json = JSON.parse(jsonStr);
 
         res.status(200).json(json);
