@@ -1,8 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    console.log('[API] parse-itinerary started');
+    console.log('[API] parse-itinerary started (Lightweight Fetch Version)');
 
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
@@ -19,11 +18,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        console.log('[API] Initializing Gemini...');
-        const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite-preview-09-2025' });
+        console.log('[API] Sending request to Gemini REST API...');
 
-        const prompt = `
+        const promptText = `
       Analyze this travel itinerary file (image or PDF).
       Extract the following information:
       1. Destination (City name in Korean, e.g., 방콕, 다낭)
@@ -41,19 +38,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       IMPORTANT: Ensure "location" is the city or main area name in Korean (e.g., "다낭", "호이안", "바나힐"). If multiple cities, separate them with commas (e.g., "다낭, 호이안").
     `;
 
-        const filePart = {
-            inlineData: {
-                data: fileBase64,
-                mimeType: mimeType,
-            },
-        };
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview-09-2025:generateContent?key=${API_KEY}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [
+                            { text: promptText },
+                            {
+                                inline_data: {
+                                    mime_type: mimeType,
+                                    data: fileBase64
+                                }
+                            }
+                        ]
+                    }]
+                })
+            }
+        );
 
-        console.log('[API] Sending request to Gemini...');
-        const result = await model.generateContent([prompt, filePart]);
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('[API] Gemini API Error:', errorText);
+            throw new Error(`Gemini API Error: ${response.status} ${response.statusText} - ${errorText}`);
+        }
+
+        const data = await response.json();
         console.log('[API] Received response from Gemini');
 
-        const response = await result.response;
-        const text = response.text();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!text) {
+            throw new Error('No text generated from Gemini');
+        }
+
         console.log('[API] Raw response text length:', text.length);
 
         // Clean up JSON string
