@@ -1,5 +1,8 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
+
+export const config = {
+  runtime: 'edge',
+};
 
 interface ScheduleItem {
   day: number;
@@ -7,54 +10,38 @@ interface ScheduleItem {
   location: string;
 }
 
-interface TravelInfo {
-  destination: string;
-  startDate: string;
-  endDate: string;
-  budget: number;
-  companions: string[];
-  preferences: string[];
-  purposes: string[];
-  schedule: ScheduleItem[];
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+export default async function handler(req: Request) {
+  // CORS headers
+  const headers = {
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+    'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+    'Content-Type': 'application/json',
+  };
 
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return new Response(null, { status: 200, headers });
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+    return new Response(JSON.stringify({ error: 'Method Not Allowed' }), { status: 405, headers });
   }
 
   const API_KEY = process.env.GEMINI_API_KEY;
   if (!API_KEY) {
-    return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
+    return new Response(JSON.stringify({ error: 'Server configuration error: Missing API Key' }), { status: 500, headers });
   }
 
   try {
-    if (!req.body) {
-      return res.status(400).json({ error: 'Request body is empty' });
-    }
-
-    const { travelInfo, guideRecommendations } = req.body;
+    const body = await req.json();
+    const { travelInfo, guideRecommendations } = body;
 
     if (!travelInfo) {
-      return res.status(400).json({ error: 'travelInfo is missing' });
+      return new Response(JSON.stringify({ error: 'travelInfo is missing' }), { status: 400, headers });
     }
 
-    const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const ai = new GoogleGenAI({ apiKey: API_KEY });
 
     const prompt = `
       You are a professional travel shopping planner.
@@ -175,9 +162,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     `;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const response = await ai.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: prompt,
+    });
+
+    const text = response.text;
 
     let jsonStr = text.replace(/```json\n?|\n?```/g, '').trim();
     const firstBrace = jsonStr.indexOf('{');
@@ -188,10 +178,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     jsonStr = jsonStr.replace(/,\s*([\]}])/g, '$1');
 
     const json = JSON.parse(jsonStr);
-    res.status(200).json(json);
+    return new Response(JSON.stringify(json), { status: 200, headers });
 
   } catch (error) {
     console.error('API Error:', error);
-    res.status(500).json({ error: (error as Error).message });
+    return new Response(JSON.stringify({ error: (error as Error).message }), { status: 500, headers });
   }
 }
