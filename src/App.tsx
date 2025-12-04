@@ -10,7 +10,8 @@ import { TripSettings } from './components/TripSettings';
 import { AddItemModal } from './components/AddItemModal';
 import { joinTrip } from './utils/db-service';
 import { useShoppingPlan } from './hooks/useShoppingPlan';
-import { convertToKRW, fetchExchangeRates } from './utils/currency-service';
+import { useTripSubscription } from './hooks/useTripSubscription';
+import { fetchExchangeRates } from './utils/currency-service';
 import type { Screen, TravelInfo, ShoppingPlan, ShoppingLocation, ShoppingItem } from './types';
 
 
@@ -24,7 +25,7 @@ export default function App() {
     handleAddItem,
     handleEditItem,
     handleDeleteItem
-  } = useShoppingPlan(null);
+  } = useShoppingPlan(null, travelInfo);
   const [selectedLocation, setSelectedLocation] = useState<ShoppingLocation | null>(null);
   // const [groupMembers, setGroupMembers] = useState<GroupMember[]>([]);
   const [isAddItemModalOpen, setIsAddItemModalOpen] = useState(false);
@@ -70,56 +71,6 @@ export default function App() {
       window.removeEventListener('drop', handleGlobalDrop);
     };
   }, []);
-
-  // Force re-render and recalculate prices when exchange rates are updated
-  const [_, setTick] = useState(0);
-  useEffect(() => {
-    const handleRatesUpdate = () => {
-      setTick(t => t + 1);
-
-      // Recalculate prices in shoppingPlan
-      setShoppingPlan((prevPlan) => {
-        if (!prevPlan) return null;
-
-        const newPlan = JSON.parse(JSON.stringify(prevPlan)); // Deep clone
-
-        const updateLocationPrices = (location: ShoppingLocation) => {
-          let locSubtotal = 0;
-          location.items.forEach(item => {
-            if (item.localPrice && item.currencyCode) {
-              item.estimatedPrice = convertToKRW(item.localPrice, item.currencyCode);
-            }
-            locSubtotal += item.estimatedPrice;
-          });
-          location.subtotal = locSubtotal;
-        };
-
-        // Update Duty Free
-        updateLocationPrices(newPlan.dutyFree.departure);
-        updateLocationPrices(newPlan.dutyFree.arrival);
-
-        // Update City Shopping
-        Object.values(newPlan.cityShopping).forEach((loc: any) => {
-          updateLocationPrices(loc);
-        });
-
-        // Update Budget Summary
-        const dutyFreeTotal = newPlan.dutyFree.departure.subtotal + newPlan.dutyFree.arrival.subtotal;
-        const cityShoppingTotal = Object.values(newPlan.cityShopping).reduce((sum: number, loc: any) => sum + loc.subtotal, 0);
-
-        newPlan.budgetSummary = {
-          dutyFree: dutyFreeTotal,
-          cityShopping: cityShoppingTotal,
-          total: dutyFreeTotal + cityShoppingTotal,
-          remaining: travelInfo ? travelInfo.budget - (dutyFreeTotal + cityShoppingTotal) : 0
-        };
-
-        return newPlan;
-      });
-    };
-    window.addEventListener('exchange-rates-updated', handleRatesUpdate);
-    return () => window.removeEventListener('exchange-rates-updated', handleRatesUpdate);
-  }, [travelInfo]); // Add travelInfo dependency for budget calculation
 
   // Sync shopping plan with travel schedule to ensure all cities appear
   useEffect(() => {
@@ -198,75 +149,7 @@ export default function App() {
 
 
   // Realtime Subscription
-  useEffect(() => {
-    if (!travelInfo || !shoppingPlan) return;
-
-    // Assuming we have a currentTripId stored or passed. 
-    // For MVP, we'll fetch the latest trip ID for the user if not available.
-    // This is a simplification. In a real app, we'd have a proper Trip Context.
-    const setupSubscription = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-
-      const { data: trips } = await supabase
-        .from('trips')
-        .select('id')
-        .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false })
-        .limit(1);
-
-      if (trips && trips[0]) {
-        const tripId = trips[0].id;
-        const subscription = supabase
-          .channel(`trip-${tripId}`)
-          .on(
-            'postgres_changes',
-            {
-              event: '*',
-              schema: 'public',
-              table: 'shopping_items',
-              filter: `trip_id=eq.${tripId}`,
-            },
-            (payload) => {
-              // console.log('Realtime update:', payload);
-              // Refresh data or update local state optimistically
-              // For simplicity, we'll just log it here. 
-              // To fully sync, we'd need to re-fetch or patch the shoppingPlan state.
-              if (payload.eventType === 'UPDATE' && shoppingPlan) {
-                const newItem = payload.new as any;
-                setShoppingPlan(prev => {
-                  if (!prev) return null;
-                  const next = { ...prev };
-                  // Helper to update item in structure
-                  const updateInLocation = (items: ShoppingItem[]) => {
-                    const idx = items.findIndex(i => i.id === newItem.id || i.product === newItem.product_name); // Fallback to name if ID differs (DB vs Local)
-                    if (idx !== -1) {
-                      items[idx] = {
-                        ...items[idx],
-                        purchased: newItem.purchased,
-                        purchasedBy: newItem.purchased_by
-                      };
-                    }
-                  };
-
-                  updateInLocation(next.dutyFree.departure.items);
-                  updateInLocation(next.dutyFree.arrival.items);
-                  Object.values(next.cityShopping).forEach(loc => updateInLocation(loc.items));
-                  return next;
-                });
-              }
-            }
-          )
-          .subscribe();
-
-        return () => {
-          subscription.unsubscribe();
-        };
-      }
-    };
-
-    setupSubscription();
-  }, [travelInfo]); // Re-run when travel info (trip) is loaded
+  useTripSubscription({ travelInfo, shoppingPlan, setShoppingPlan });
 
   // Sync selectedLocation with shoppingPlan updates
   useEffect(() => {

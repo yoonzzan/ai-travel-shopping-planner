@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase/client';
-import type { ShoppingPlan, ShoppingItem, ShoppingLocation } from '../types';
+import type { ShoppingPlan, ShoppingItem, ShoppingLocation, TravelInfo } from '../types';
 import { saveShoppingPlan, updateItemStatus } from '../utils/db-service';
+import { convertToKRW } from '../utils/currency-service';
 
-export function useShoppingPlan(initialPlan: ShoppingPlan | null) {
+export function useShoppingPlan(initialPlan: ShoppingPlan | null, travelInfo: TravelInfo | null) {
     const [shoppingPlan, setShoppingPlan] = useState<ShoppingPlan | null>(initialPlan);
 
     useEffect(() => {
@@ -11,6 +12,52 @@ export function useShoppingPlan(initialPlan: ShoppingPlan | null) {
             setShoppingPlan(initialPlan);
         }
     }, [initialPlan]);
+
+    // Force re-render and recalculate prices when exchange rates are updated
+    useEffect(() => {
+        const handleRatesUpdate = () => {
+            setShoppingPlan((prevPlan) => {
+                if (!prevPlan) return null;
+
+                const newPlan = JSON.parse(JSON.stringify(prevPlan)); // Deep clone
+
+                const updateLocationPrices = (location: ShoppingLocation) => {
+                    let locSubtotal = 0;
+                    location.items.forEach(item => {
+                        if (item.localPrice && item.currencyCode) {
+                            item.estimatedPrice = convertToKRW(item.localPrice, item.currencyCode);
+                        }
+                        locSubtotal += item.estimatedPrice;
+                    });
+                    location.subtotal = locSubtotal;
+                };
+
+                // Update Duty Free
+                updateLocationPrices(newPlan.dutyFree.departure);
+                updateLocationPrices(newPlan.dutyFree.arrival);
+
+                // Update City Shopping
+                Object.values(newPlan.cityShopping).forEach((loc: any) => {
+                    updateLocationPrices(loc);
+                });
+
+                // Update Budget Summary
+                const dutyFreeTotal = newPlan.dutyFree.departure.subtotal + newPlan.dutyFree.arrival.subtotal;
+                const cityShoppingTotal = Object.values(newPlan.cityShopping).reduce((sum: number, loc: any) => sum + loc.subtotal, 0);
+
+                newPlan.budgetSummary = {
+                    dutyFree: dutyFreeTotal,
+                    cityShopping: cityShoppingTotal,
+                    total: dutyFreeTotal + cityShoppingTotal,
+                    remaining: travelInfo ? travelInfo.budget - (dutyFreeTotal + cityShoppingTotal) : 0
+                };
+
+                return newPlan;
+            });
+        };
+        window.addEventListener('exchange-rates-updated', handleRatesUpdate);
+        return () => window.removeEventListener('exchange-rates-updated', handleRatesUpdate);
+    }, [travelInfo]); // Add travelInfo dependency for budget calculation
 
     const updatePlan = async (newPlan: ShoppingPlan) => {
         setShoppingPlan(newPlan);
