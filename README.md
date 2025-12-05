@@ -65,13 +65,49 @@ npm run dev
 
 ```
 src/
-├── components/     # UI 컴포넌트 (Onboarding, HomePage, ShoppingList 등)
+├── components/         # UI 컴포넌트
+│   ├── OnboardingFlow.tsx  # 여행 정보 입력 및 파일 업로드
+│   ├── HomePage.tsx        # 메인 대시보드 (예산, 진행률)
+│   ├── ShoppingListDetail.tsx # 상세 쇼핑 리스트 및 아이템 관리
+│   ├── TimelineView.tsx    # 타임라인 뷰
+│   ├── LiveShopping.tsx    # 실시간 쇼핑 모드
+│   └── FileUpload.tsx      # 파일 업로드 및 파싱 UI
 ├── utils/
-│   ├── ai-service.ts   # AI 통신 로직 (클라이언트 직접 호출 포함)
-│   └── image-utils.ts  # 이미지 압축 및 처리
+│   ├── ai-service.ts       # Google Gemini AI 통신 로직
+│   ├── db-service.ts       # Supabase DB CRUD 로직
+│   └── currency-service.ts # 환율 계산 유틸리티
+├── hooks/
+│   └── useShoppingPlan.ts  # 쇼핑 플랜 상태 관리 및 동기화 훅
+├── types/                  # TypeScript 타입 정의
+└── supabase/               # Supabase 클라이언트 설정
 api/
-└── generate-plan.ts    # 쇼핑 플랜 생성 API (예산 및 로직 제어)
+└── generate-plan.ts        # 쇼핑 플랜 생성 서버리스 함수 (AI 프롬프트 포함)
 ```
+
+## 🗄️ 데이터베이스 스키마 (Supabase)
+
+### 1. `trips` (여행 정보)
+사용자의 여행 기본 정보를 저장합니다.
+*   `id`: UUID (Primary Key)
+*   `user_id`: UUID (사용자 식별)
+*   `destination`: String (여행지)
+*   `start_date`: Date (시작일)
+*   `end_date`: Date (종료일)
+*   `budget`: Integer (총 예산)
+*   `created_at`: Timestamp
+
+### 2. `shopping_items` (쇼핑 아이템)
+각 여행에 속한 개별 쇼핑 아이템을 저장합니다.
+*   `id`: UUID (Primary Key)
+*   `trip_id`: UUID (Foreign Key -> trips.id)
+*   `product_name`: String (상품명)
+*   `estimated_price`: Integer (예상 가격 - 원화)
+*   `local_price`: Integer (현지 가격 - 선택)
+*   `currency_code`: String (통화 코드 - 예: USD, JPY)
+*   `location_id`: String (구매 장소 ID - 예: departure, day_1_bangkok)
+*   `purchased`: Boolean (구매 여부)
+*   `is_recommended`: Boolean (AI 추천 아이템 여부)
+*   `local_name`: String (현지어 상품명)
 
 ## 📝 최신 업데이트 내역
 
