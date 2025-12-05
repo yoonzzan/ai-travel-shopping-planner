@@ -218,7 +218,7 @@ export default function App() {
         setSelectedLocation(updatedLocation);
       }
     }
-  }, [shoppingPlan]);
+  }, [shoppingPlan, selectedLocation]);
 
   const handleStartLiveMode = (location: ShoppingLocation) => {
     setSelectedLocation(location);
