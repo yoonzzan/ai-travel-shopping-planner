@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Upload, Loader2 } from 'lucide-react';
 
 interface FileUploadProps {
@@ -9,7 +9,27 @@ interface FileUploadProps {
 
 export function FileUpload({ onFileSelect, isParsing, accept = "image/*,application/pdf" }: FileUploadProps) {
     const [isDragging, setIsDragging] = useState(false);
+    const [progress, setProgress] = useState(0);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Fake progress animation
+    useEffect(() => {
+        if (!isParsing) {
+            setProgress(0);
+            return;
+        }
+
+        const interval = setInterval(() => {
+            setProgress(prev => {
+                if (prev >= 90) return prev; // Stop at 90% until complete
+                // Slow down as it gets higher
+                const increment = prev < 30 ? 5 : prev < 60 ? 2 : 0.5;
+                return Math.min(prev + increment, 90);
+            });
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, [isParsing]);
 
     const handleDragEnter = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -72,14 +92,23 @@ export function FileUpload({ onFileSelect, isParsing, accept = "image/*,applicat
             className={`relative w-full py-8 border-2 border-dashed rounded-xl transition-all flex flex-col items-center justify-center gap-3 touch-manipulation ${isDragging
                 ? 'border-blue-500 bg-blue-50'
                 : 'border-gray-200 hover:border-blue-400 hover:bg-gray-50'
-                } ${isParsing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-[0.98]'}`}
+                } ${isParsing ? 'opacity-100 cursor-not-allowed bg-gray-50' : 'cursor-pointer active:scale-[0.98]'}`}
         >
             {isParsing ? (
-                <div className="flex items-center gap-3 text-blue-600 pointer-events-none select-none">
-                    <div className="animate-spin">
-                        <Loader2 className="w-6 h-6" />
+                <div className="flex flex-col items-center gap-3 w-full max-w-[200px] pointer-events-none select-none">
+                    <div className="flex items-center gap-2 text-blue-600">
+                        <div className="animate-spin">
+                            <Loader2 className="w-5 h-5" />
+                        </div>
+                        <span className="font-bold text-sm">일정 분석 중... {Math.round(progress)}%</span>
                     </div>
-                    <span className="font-bold text-lg">일정 분석 중...</span>
+                    {/* Progress Bar */}
+                    <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-blue-600 transition-all duration-300 ease-out"
+                            style={{ width: `${progress}%` }}
+                        />
+                    </div>
                 </div>
             ) : (
                 <div className="flex flex-col items-center pointer-events-none select-none w-full">
