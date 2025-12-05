@@ -44,7 +44,7 @@ export default async function handler(req: Request) {
     const ai = new GoogleGenAI({ apiKey: API_KEY });
 
     const prompt = `
-      You are a professional travel shopping planner.
+      You are a professional travel shopping planner for KOREAN travelers.
       Create a detailed shopping plan for a trip to ${travelInfo.destination}.
       
       Travel Details:
@@ -58,15 +58,20 @@ export default async function handler(req: Request) {
   
       ${guideRecommendations}
   
+      **LANGUAGE INSTRUCTION (CRITICAL)**:
+      - **ALL OUTPUT MUST BE IN KOREAN (한국어).**
+      - Product names, descriptions, reasons, tips, and shop names MUST be in Korean.
+      - Exception: You may keep the original English/Local brand name in parentheses if helpful (e.g., "말린 망고 (7D Dried Mangoes)").
+  
       **CRITICAL INSTRUCTION**:
       Recommend REAL, POPULAR, and SPECIFIC items that travelers actually buy in ${travelInfo.destination}.
       - Focus on "Must-Buy" items, local specialties, and famous souvenirs.
-      - Avoid generic suggestions like "Chocolate" or "T-shirt". Instead, suggest specific brands or famous products (e.g., "G7 Coffee", "Dried Mangoes (7D)", "Jim Thompson Silk").
+      - Avoid generic suggestions like "Chocolate" or "T-shirt". Instead, suggest specific brands or famous products.
       - Consider the user's budget and interests.
       - **BALANCED RECOMMENDATION STRATEGY (30:70 Rule)**:
-        1. **Guide Recommendations (approx. 30%)**: Select only the top 2-3 "Must-Buy" items from the provided guide data that best fit the user's profile. These are the "safe bets".
-        2. **AI Recommendations (approx. 70%)**: Fill the rest with UNIQUE, TRENDY, and PERSONALIZED items based on the user's specific interests and current trends. Surprise the user with hidden gems that are NOT in the guide data. **DO NOT duplicate items already selected from the guide.**
-      - **Avoid Repetition**: Do not just list everything from the guide. Curate strictly. Ensure AI recommendations are distinct from Guide recommendations.
+        1. **Guide Recommendations (approx. 30%)**: Select only the top 2-3 "Must-Buy" items from the provided guide data.
+        2. **AI Recommendations (approx. 70%)**: Fill the rest with UNIQUE, TRENDY, and PERSONALIZED items.
+      - **Avoid Repetition**: Do not just list everything from the guide. Curate strictly.
       
       **PRICE INSTRUCTION**:
       - You MUST estimate the price for every item. Do NOT return 0.
@@ -74,7 +79,7 @@ export default async function handler(req: Request) {
       - \`estimatedPrice\`: The approximate price in KRW (Korean Won). Calculate based on current exchange rates.
   
       **SOURCE ATTRIBUTION**:
-      - \`source\`: Set to "guide" if the item is from the provided guide recommendations. Set to "ai" if it is your own suggestion based on general knowledge.
+      - \`source\`: Set to "guide" if the item is from the provided guide recommendations. Set to "ai" if it is your own suggestion.
       
       **IMPORTANT CHANGE**: Plan the shopping itinerary **DAY BY DAY** according to the user's schedule.
       - The top-level keys in "cityShopping" MUST be unique for each day, e.g., "day_1_bangkok", "day_2_pattaya".
@@ -97,13 +102,13 @@ export default async function handler(req: Request) {
             "items": [
               {
                 "id": "unique_id",
-                "category": "Category",
-                "product": "Product Name",
-                "brand": "Brand",
+                "category": "카테고리 (한국어)",
+                "product": "상품명 (한국어)",
+                "brand": "브랜드명",
                 "estimatedPrice": 35000,
                 "localPrice": 25,
                 "currencyCode": "USD",
-                "reason": "Why recommended",
+                "reason": "추천 이유 (한국어)",
                 "priority": "high/medium/low",
                 "purchased": false,
                 "source": "ai"
@@ -122,27 +127,27 @@ export default async function handler(req: Request) {
         "cityShopping": {
           "day_1_cityname": {
             "id": "day_1_cityname",
-            "location": "City Name (e.g., 방콕)",
+            "location": "도시명 (한국어, 예: 방콕)",
             "day": 1,
             "timing": "여행 중",
             "items": [
               {
                 "id": "unique_id",
-                "category": "Category",
-                "product": "Product Name",
-                "brand": "Brand",
+                "category": "카테고리 (한국어)",
+                "product": "상품명 (한국어)",
+                "brand": "브랜드명",
                 "estimatedPrice": 15000,
                 "localPrice": 400,
                 "currencyCode": "THB",
-                "reason": "Why recommended",
+                "reason": "추천 이유 (한국어)",
                 "priority": "high/medium/low",
                 "purchased": false,
-                "shopName": "Specific Shop Name (e.g. 빅씨 마켓)",
+                "shopName": "구매처 (한국어, 예: 빅씨 마켓)",
                 "source": "guide"
               }
             ],
             "subtotal": 0,
-            "tips": ["City specific shopping tip"]
+            "tips": ["쇼핑 꿀팁 (한국어)"]
           }
         },
         "budgetSummary": {
@@ -151,7 +156,7 @@ export default async function handler(req: Request) {
           "total": 0,
           "remaining": 0
         },
-        "timeline": ["Day 1: City A", "Day 2: City B"]
+        "timeline": ["1일차: 방콕", "2일차: 파타야"]
       }
     `;
 
@@ -178,6 +183,44 @@ export default async function handler(req: Request) {
     jsonStr = jsonStr.replace(/,\s*([\]}])/g, '$1');
 
     const json = JSON.parse(jsonStr);
+
+    // Recalculate totals to ensure accuracy (AI math can be unreliable)
+    let dutyFreeTotal = 0;
+    let cityShoppingTotal = 0;
+
+    // 1. Calculate Departure Duty Free
+    if (json.dutyFree?.departure?.items) {
+      const subtotal = json.dutyFree.departure.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+      json.dutyFree.departure.subtotal = subtotal;
+      dutyFreeTotal += subtotal;
+    }
+
+    // 2. Calculate Arrival Duty Free
+    if (json.dutyFree?.arrival?.items) {
+      const subtotal = json.dutyFree.arrival.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+      json.dutyFree.arrival.subtotal = subtotal;
+      dutyFreeTotal += subtotal;
+    }
+
+    // 3. Calculate City Shopping
+    if (json.cityShopping) {
+      Object.values(json.cityShopping).forEach((location: any) => {
+        if (location.items) {
+          const subtotal = location.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+          location.subtotal = subtotal;
+          cityShoppingTotal += subtotal;
+        }
+      });
+    }
+
+    // 4. Update Budget Summary
+    json.budgetSummary = {
+      dutyFree: dutyFreeTotal,
+      cityShopping: cityShoppingTotal,
+      total: dutyFreeTotal + cityShoppingTotal,
+      remaining: (travelInfo.budget || 0) - (dutyFreeTotal + cityShoppingTotal)
+    };
+
     return new Response(JSON.stringify(json), { status: 200, headers });
 
   } catch (error) {
