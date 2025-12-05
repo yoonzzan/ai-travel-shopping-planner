@@ -76,29 +76,87 @@ export async function generateShoppingPlan(travelInfo: TravelInfo): Promise<Shop
   }
 }
 
+import { GoogleGenerativeAI } from '@google/genai';
+
+// ... (existing imports)
+
 export async function parseItineraryFile(fileBase64: string, mimeType: string): Promise<Partial<TravelInfo>> {
   try {
-    const response = await fetch('/api/parse-itinerary', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ fileBase64, mimeType }),
-    });
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+    if (!apiKey) {
+      throw new Error('Client-side API key (VITE_GEMINI_API_KEY) is missing.');
+    }
+
+    // Initialize Gemini Client
+    // Note: The @google/genai package might have a different import structure depending on version.
+    // Using the REST API approach via fetch is safer and lighter for the client if SDK issues arise,
+    // but let's try the direct fetch approach first to avoid SDK bundle size issues.
+
+    const promptText = `
+      Analyze this travel itinerary file (image or PDF).
+      Extract the following information:
+      1. Destination (City name in Korean, e.g., 방콕, 다낭)
+      2. Start Date (YYYY-MM-DD)
+      3. End Date (YYYY-MM-DD)
+      4. Daily Schedule: For each day, extract the Day number, Date, and Main Location/City (in Korean).
+  
+      Return ONLY a JSON object with these keys: 
+      - "destination": string
+      - "startDate": string (YYYY-MM-DD)
+      - "endDate": string (YYYY-MM-DD)
+      - "schedule": array of objects { "day": number, "date": string, "location": string }
+  
+      If you cannot find specific information, make a reasonable guess based on context or return null/empty.
+      IMPORTANT: Ensure "location" is the city or main area name in Korean (e.g., "다낭", "호이안", "바나힐"). If multiple cities, separate them with commas (e.g., "다낭, 호이안").
+    `;
+
+    // Direct REST API call from client (Lightweight & Secure with Domain Restriction)
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview-09-2025:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: promptText },
+              {
+                inline_data: {
+                  mime_type: mimeType,
+                  data: fileBase64 // The client already has the base64 string without prefix
+                }
+              }
+            ]
+          }]
+        })
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
-      let errorMessage = `Server error: ${response.status}`;
-      try {
-        const errorJson = JSON.parse(errorText);
-        if (errorJson.error) errorMessage = errorJson.error;
-      } catch {
-        errorMessage = `Server Error (${response.status}): ${errorText.slice(0, 100)}`;
-      }
-      throw new Error(errorMessage);
+      throw new Error(`Gemini API Error (${response.status}): ${errorText}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      throw new Error('No text generated from Gemini');
+    }
+
+    // Clean up JSON string
+    let jsonStr = text.replace(/```json\n?|\n?```/g, '').trim();
+    const firstBrace = jsonStr.indexOf('{');
+    const lastBrace = jsonStr.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+      jsonStr = jsonStr.substring(firstBrace, lastBrace + 1);
+    }
+
+    return JSON.parse(jsonStr);
+
   } catch (error) {
     console.error('Itinerary parsing failed:', error);
     throw error;
