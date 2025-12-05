@@ -235,13 +235,113 @@ export default async function handler(req: Request) {
       });
     }
 
-    // 4. Update Budget Summary
+    // 4. Update Budget Summary (Initial Calculation)
     json.budgetSummary = {
       dutyFree: dutyFreeTotal,
       cityShopping: cityShoppingTotal,
       total: dutyFreeTotal + cityShoppingTotal,
       remaining: (travelInfo.budget || 0) - (dutyFreeTotal + cityShoppingTotal)
     };
+
+    // ---------------------------------------------------------
+    // 🛡️ STRICT BUDGET ENFORCEMENT LOGIC (Server-Side)
+    // ---------------------------------------------------------
+    const budgetLimit = travelInfo.budget || 0;
+
+    if (budgetLimit > 0 && json.budgetSummary.total > budgetLimit) {
+      console.log(`[Budget] Exceeded! Total: ${json.budgetSummary.total}, Limit: ${budgetLimit}. Trimming items...`);
+
+      // 1. Collect all items with their references
+      type ItemRef = {
+        item: any;
+        parentList: any[];
+        locationId: string; // for debugging
+        isDutyFree: boolean;
+      };
+
+      let allItems: ItemRef[] = [];
+
+      // Collect Duty Free Items
+      if (json.dutyFree?.departure?.items) {
+        json.dutyFree.departure.items.forEach((item: any) => allItems.push({ item, parentList: json.dutyFree.departure.items, locationId: 'departure', isDutyFree: true }));
+      }
+      if (json.dutyFree?.arrival?.items) {
+        json.dutyFree.arrival.items.forEach((item: any) => allItems.push({ item, parentList: json.dutyFree.arrival.items, locationId: 'arrival', isDutyFree: true }));
+      }
+
+      // Collect City Shopping Items
+      if (json.cityShopping) {
+        Object.values(json.cityShopping).forEach((location: any) => {
+          if (location.items) {
+            location.items.forEach((item: any) => allItems.push({ item, parentList: location.items, locationId: location.id, isDutyFree: false }));
+          }
+        });
+      }
+
+      // 2. Sort items by "Removability" (High score = Remove first)
+      // Criteria:
+      // - Source: 'ai' (removable) > 'guide' (keep if possible)
+      // - Priority: 'low' > 'medium' > 'high'
+      // - Price: Higher price = Higher chance to remove (to cut budget fast)
+      allItems.sort((a, b) => {
+        const scoreA = (a.item.source === 'ai' ? 1000 : 0) +
+          (a.item.priority === 'low' ? 500 : a.item.priority === 'medium' ? 200 : 0) +
+          (a.item.estimatedPrice / 10000); // Weight price slightly
+
+        const scoreB = (b.item.source === 'ai' ? 1000 : 0) +
+          (b.item.priority === 'low' ? 500 : b.item.priority === 'medium' ? 200 : 0) +
+          (b.item.estimatedPrice / 10000);
+
+        return scoreB - scoreA; // Descending order (Highest score first)
+      });
+
+      // 3. Remove items until budget is met
+      let currentTotal = json.budgetSummary.total;
+
+      for (const ref of allItems) {
+        if (currentTotal <= budgetLimit) break;
+
+        // Remove item from its parent list
+        const index = ref.parentList.indexOf(ref.item);
+        if (index > -1) {
+          ref.parentList.splice(index, 1); // Remove!
+          currentTotal -= (ref.item.estimatedPrice || 0);
+          console.log(`[Budget] Removed item: ${ref.item.product} (${ref.item.estimatedPrice} KRW) from ${ref.locationId}`);
+        }
+      }
+
+      // 4. Recalculate Totals after trimming
+      dutyFreeTotal = 0;
+      cityShoppingTotal = 0;
+
+      if (json.dutyFree?.departure?.items) {
+        const subtotal = json.dutyFree.departure.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+        json.dutyFree.departure.subtotal = subtotal;
+        dutyFreeTotal += subtotal;
+      }
+      if (json.dutyFree?.arrival?.items) {
+        const subtotal = json.dutyFree.arrival.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+        json.dutyFree.arrival.subtotal = subtotal;
+        dutyFreeTotal += subtotal;
+      }
+      if (json.cityShopping) {
+        Object.values(json.cityShopping).forEach((location: any) => {
+          if (location.items) {
+            const subtotal = location.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+            location.subtotal = subtotal;
+            cityShoppingTotal += subtotal;
+          }
+        });
+      }
+
+      // Final Update
+      json.budgetSummary = {
+        dutyFree: dutyFreeTotal,
+        cityShopping: cityShoppingTotal,
+        total: dutyFreeTotal + cityShoppingTotal,
+        remaining: budgetLimit - (dutyFreeTotal + cityShoppingTotal)
+      };
+    }
 
     return new Response(JSON.stringify(json), { status: 200, headers });
 
