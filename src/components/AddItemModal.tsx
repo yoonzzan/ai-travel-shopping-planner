@@ -20,6 +20,21 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
     const [locationId, setLocationId] = useState('departure');
     const [memo, setMemo] = useState('');
     const [currency, setCurrency] = useState('KRW');
+    const [showError, setShowError] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+
+    // Hide error when user types
+    useEffect(() => {
+        if (productName && price) setShowError(false);
+    }, [productName, price]);
+
+    // Reset confirm state after 3 seconds if not clicked
+    useEffect(() => {
+        if (confirmDelete) {
+            const timer = setTimeout(() => setConfirmDelete(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [confirmDelete]);
 
     useEffect(() => {
         if (isOpen) {
@@ -27,7 +42,7 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                 setProductName(initialItem.item.product);
                 setPrice(initialItem.item.estimatedPrice.toLocaleString('ko-KR'));
                 setLocationId(initialItem.locationId);
-                setMemo(initialItem.item.memo || ''); // Assuming memo exists on ShoppingItem now
+                setMemo(initialItem.item.memo || '');
                 setCurrency(initialItem.item.currencyCode || 'KRW');
             } else {
                 setProductName('');
@@ -36,17 +51,24 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                 setMemo('');
                 setCurrency('KRW');
             }
+            setShowError(false);
+            setConfirmDelete(false);
         }
     }, [isOpen, initialItem]);
 
     if (!isOpen) return null;
 
-    const [showError, setShowError] = useState(false);
+    const handleDelete = () => {
+        if (!confirmDelete) {
+            setConfirmDelete(true);
+            return;
+        }
 
-    // Hide error when user types
-    useEffect(() => {
-        if (productName && price) setShowError(false);
-    }, [productName, price]);
+        if (initialItem && onDelete) {
+            onDelete(initialItem.locationId, initialItem.item.id);
+            onClose();
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -88,27 +110,7 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
         onClose();
     };
 
-    const [confirmDelete, setConfirmDelete] = useState(false);
 
-    const handleDelete = () => {
-        if (!confirmDelete) {
-            setConfirmDelete(true);
-            return;
-        }
-
-        if (initialItem && onDelete) {
-            onDelete(initialItem.locationId, initialItem.item.id);
-            onClose();
-        }
-    };
-
-    // Reset confirm state after 3 seconds if not clicked
-    useEffect(() => {
-        if (confirmDelete) {
-            const timer = setTimeout(() => setConfirmDelete(false), 3000);
-            return () => clearTimeout(timer);
-        }
-    }, [confirmDelete]);
 
     const formatPrice = (value: string) => {
         const num = value.replace(/[^0-9]/g, '');
@@ -258,8 +260,8 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                                 type="button"
                                 onClick={handleDelete}
                                 className={`flex-1 py-3.5 rounded-xl font-medium active:scale-[0.98] transition-all flex items-center justify-center gap-2 ${confirmDelete
-                                        ? 'bg-red-600 text-white hover:bg-red-700'
-                                        : 'bg-red-100 text-red-600 hover:bg-red-200'
+                                    ? 'bg-red-600 text-white hover:bg-red-700'
+                                    : 'bg-red-100 text-red-600 hover:bg-red-200'
                                     }`}
                             >
                                 <Trash2 className="w-5 h-5" />
