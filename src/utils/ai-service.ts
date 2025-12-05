@@ -76,7 +76,7 @@ export async function generateShoppingPlan(travelInfo: TravelInfo): Promise<Shop
   }
 }
 
-import { GoogleGenerativeAI } from '@google/genai';
+
 
 // ... (existing imports)
 
