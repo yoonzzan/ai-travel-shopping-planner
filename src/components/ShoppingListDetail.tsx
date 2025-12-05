@@ -69,14 +69,6 @@ export function ShoppingListDetail({
         <h1 className="text-2xl mb-4">{location.location}</h1>
 
         <div className="space-y-2">
-          <div className="flex items-center gap-2 text-blue-100">
-            <MapPin className="w-4 h-4" />
-            <span className="text-sm">{location.location}</span>
-          </div>
-          <div className="flex items-center gap-2 text-blue-100">
-            <Clock className="w-4 h-4" />
-            <span className="text-sm">{location.timing}</span>
-          </div>
           {location.freeTime && (
             <div className="flex items-center gap-2 text-blue-100">
               <Clock className="w-4 h-4" />
