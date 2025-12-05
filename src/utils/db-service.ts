@@ -44,13 +44,13 @@ export async function saveShoppingPlan(tripId: string, plan: ShoppingPlan) {
                 category: item.category,
                 product_name: item.product,
                 brand: item.brand,
-                estimated_price: item.estimatedPrice,
+                estimated_price: Math.round(item.estimatedPrice),
                 reason: item.reason,
                 priority: item.priority,
                 purchased: item.purchased || false,
                 shop_name: item.shopName,
                 is_recommended: item.isRecommended !== false,
-                local_price: item.localPrice,
+                local_price: item.localPrice ? Math.round(item.localPrice) : null,
                 currency_code: item.currencyCode
             });
         });
