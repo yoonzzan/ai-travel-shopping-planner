@@ -62,6 +62,10 @@ export default async function handler(req: Request) {
       - **ALL OUTPUT MUST BE IN KOREAN (한국어).**
       - Product names, descriptions, reasons, tips, and shop names MUST be in Korean.
       - Exception: You may keep the original English/Local brand name in parentheses if helpful (e.g., "말린 망고 (7D Dried Mangoes)").
+      - **MANDATORY FIELD**: You MUST provide the \`localName\` for every item.
+        - \`localName\`: The name of the product in the **LOCAL LANGUAGE** of the destination (e.g., Thai script for Bangkok, Japanese Kanji/Kana for Tokyo, Vietnamese for Da Nang).
+        - This is essential for the user to show to store staff.
+        - If the local name is unknown, provide the English name that locals would understand.
   
       **CRITICAL INSTRUCTION**:
       Recommend REAL, POPULAR, and SPECIFIC items that travelers actually buy in ${travelInfo.destination}.
@@ -112,6 +116,7 @@ export default async function handler(req: Request) {
                 "id": "unique_id",
                 "category": "카테고리 (한국어)",
                 "product": "상품명 (한국어)",
+                "localName": "Product Name in Local Language",
                 "brand": "브랜드명",
                 "estimatedPrice": 35000,
                 "localPrice": 25,
