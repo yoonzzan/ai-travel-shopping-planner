@@ -78,12 +78,27 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
         onClose();
     };
 
+    const [confirmDelete, setConfirmDelete] = useState(false);
+
     const handleDelete = () => {
-        if (initialItem && onDelete && confirm('정말 이 아이템을 삭제하시겠습니까?')) {
+        if (!confirmDelete) {
+            setConfirmDelete(true);
+            return;
+        }
+
+        if (initialItem && onDelete) {
             onDelete(initialItem.locationId, initialItem.item.id);
             onClose();
         }
     };
+
+    // Reset confirm state after 3 seconds if not clicked
+    useEffect(() => {
+        if (confirmDelete) {
+            const timer = setTimeout(() => setConfirmDelete(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [confirmDelete]);
 
     const formatPrice = (value: string) => {
         const num = value.replace(/[^0-9]/g, '');
@@ -226,10 +241,13 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                             <button
                                 type="button"
                                 onClick={handleDelete}
-                                className="flex-1 bg-red-100 text-red-600 py-3.5 rounded-xl font-medium hover:bg-red-200 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                className={`flex-1 py-3.5 rounded-xl font-medium active:scale-[0.98] transition-all flex items-center justify-center gap-2 ${confirmDelete
+                                        ? 'bg-red-600 text-white hover:bg-red-700'
+                                        : 'bg-red-100 text-red-600 hover:bg-red-200'
+                                    }`}
                             >
                                 <Trash2 className="w-5 h-5" />
-                                삭제
+                                {confirmDelete ? '확인 (삭제)' : '삭제'}
                             </button>
                         )}
                         <button
