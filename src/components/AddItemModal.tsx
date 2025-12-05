@@ -41,9 +41,19 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
 
     if (!isOpen) return null;
 
+    const [showError, setShowError] = useState(false);
+
+    // Hide error when user types
+    useEffect(() => {
+        if (productName && price) setShowError(false);
+    }, [productName, price]);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!productName || !price) return;
+        if (!productName || !price) {
+            setShowError(true);
+            return;
+        }
 
         const numericPrice = parseInt(price.replace(/,/g, ''));
 
@@ -129,14 +139,14 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            상품명
+                            상품명 <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="text"
                             value={productName}
                             onChange={(e) => setProductName(e.target.value)}
                             placeholder="예: 설화수 자음생 세트"
-                            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                            className={`w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all ${showError && !productName ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                             autoFocus={!isEditMode}
                         />
                     </div>
@@ -144,14 +154,14 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                     <div className="flex gap-3">
                         <div className="flex-1">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                예상 가격
+                                예상 가격 <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={price}
                                 onChange={handlePriceChange}
                                 placeholder="150,000"
-                                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                                className={`w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none ${showError && !price ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
                                 inputMode="numeric"
                             />
                         </div>
@@ -236,6 +246,12 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                         />
                     </div>
 
+                    {showError && (
+                        <div className="text-red-500 text-sm text-center font-medium animate-pulse bg-red-50 py-2 rounded-lg border border-red-100">
+                            ⚠️ 상품명과 가격을 모두 입력해주세요.
+                        </div>
+                    )}
+
                     <div className="pt-2 flex gap-3">
                         {isEditMode && (
                             <button
@@ -252,8 +268,7 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                         )}
                         <button
                             type="submit"
-                            disabled={!productName || !price}
-                            className={`flex-[2] text-white py-3.5 rounded-xl font-medium active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg ${isEditMode
+                            className={`flex-[2] text-white py-3.5 rounded-xl font-medium active:scale-[0.98] transition-all shadow-lg ${isEditMode
                                 ? 'bg-gray-800 hover:bg-gray-900 shadow-gray-200'
                                 : 'bg-blue-600 hover:bg-blue-700 shadow-blue-200'
                                 }`}
