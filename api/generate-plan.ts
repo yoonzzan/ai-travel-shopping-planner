@@ -78,8 +78,16 @@ export default async function handler(req: Request) {
       - \`localPrice\`: The price in local currency (e.g. JPY, THB). Use the guide data if available.
       - \`estimatedPrice\`: The approximate price in KRW (Korean Won). Calculate based on current exchange rates.
   
-      **SOURCE ATTRIBUTION**:
-      - \`source\`: Set to "guide" if the item is from the provided guide recommendations. Set to "ai" if it is your own suggestion.
+      **BUDGET COMPLIANCE (CRITICAL)**:
+      - **TOTAL BUDGET LIMIT**: The sum of all item prices MUST NOT exceed ${travelInfo.budget} KRW.
+      - **Adjust Item Selection**: If the budget is low (e.g., 300,000 KRW), do NOT recommend expensive luxury items. Focus on affordable souvenirs, snacks, and local crafts.
+      - **Quantity Control**: Do not recommend too many items if it breaks the budget. Prioritize quality over quantity.
+      - **Price Check**: Before finalizing the list, sum up the prices. If it exceeds ${travelInfo.budget} KRW, remove the least important items.
+  
+      **SOURCE ATTRIBUTION (STRICT)**:
+      - \`source\`: Set to "guide" **ONLY IF** the item is explicitly listed in the provided "LOCAL GUIDE RECOMMENDATIONS" section.
+      - \`source\`: Set to "ai" if the item is your own suggestion based on general knowledge and trends.
+      - **DO NOT lie.** If it's not in the guide text provided above, mark it as "ai".
       
       **IMPORTANT CHANGE**: Plan the shopping itinerary **DAY BY DAY** according to the user's schedule.
       - The top-level keys in "cityShopping" MUST be unique for each day, e.g., "day_1_bangkok", "day_2_pattaya".
@@ -132,18 +140,32 @@ export default async function handler(req: Request) {
             "timing": "여행 중",
             "items": [
               {
-                "id": "unique_id",
-                "category": "카테고리 (한국어)",
-                "product": "상품명 (한국어)",
-                "brand": "브랜드명",
-                "estimatedPrice": 15000,
-                "localPrice": 400,
+                "id": "unique_id_1",
+                "category": "식품",
+                "product": "말린 망고 (7D Dried Mangoes)",
+                "brand": "7D",
+                "estimatedPrice": 5000,
+                "localPrice": 150,
                 "currencyCode": "THB",
-                "reason": "추천 이유 (한국어)",
-                "priority": "high/medium/low",
+                "reason": "가이드 데이터에 있는 필수 기념품입니다.",
+                "priority": "high",
                 "purchased": false,
-                "shopName": "구매처 (한국어, 예: 빅씨 마켓)",
+                "shopName": "빅씨 마켓",
                 "source": "guide"
+              },
+              {
+                "id": "unique_id_2",
+                "category": "패션",
+                "product": "코끼리 바지",
+                "brand": "No Brand",
+                "estimatedPrice": 4000,
+                "localPrice": 100,
+                "currencyCode": "THB",
+                "reason": "요즘 한국인 여행객 사이에서 유행하는 아이템입니다.",
+                "priority": "medium",
+                "purchased": false,
+                "shopName": "야시장",
+                "source": "ai"
               }
             ],
             "subtotal": 0,
