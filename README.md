@@ -57,6 +57,16 @@ VITE_GEMINI_API_KEY=your_google_gemini_api_key_here
 > *   허용 도메인: `http://localhost:5173/*`, `https://your-project.vercel.app/*`
 
 ### 3. 로컬 개발 서버 실행
+
+**방법 A: 전체 기능 실행 (권장)**
+API(서버리스 함수)를 포함한 모든 기능을 테스트하려면 Vercel CLI가 필요합니다.
+```bash
+npm i -g vercel
+vercel dev
+```
+
+**방법 B: 프론트엔드만 실행**
+UI만 빠르게 확인하고 싶을 때 사용합니다. (AI 생성 등 API 기능은 작동하지 않음)
 ```bash
 npm run dev
 ```
