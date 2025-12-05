@@ -34,6 +34,7 @@ export interface ShoppingItem {
     memo?: string;
     isRecommended?: boolean;
     source?: 'guide' | 'ai';
+    localName?: string; // Product name in local language (e.g., Japanese, Thai)
 }
 
 export interface ShoppingLocation {

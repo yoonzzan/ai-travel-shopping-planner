@@ -1,5 +1,6 @@
 import { ArrowLeft, MapPin, Clock, Lightbulb, AlertTriangle, ShoppingCart, CheckCircle, Radio, Plus, Edit2 } from 'lucide-react';
 import type { ShoppingLocation, ShoppingItem } from '../types';
+import { useState } from 'react';
 import { convertFromKRW } from '../utils/currency-service';
 
 interface ShoppingListDetailProps {
@@ -48,6 +49,11 @@ export function ShoppingListDetail({
         return priority;
     }
   };
+
+  const [localNameModal, setLocalNameModal] = useState<{ isOpen: boolean; item: ShoppingItem | null }>({
+    isOpen: false,
+    item: null,
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -273,6 +279,15 @@ export function ShoppingListDetail({
 
                       {/* Action Buttons */}
                       <div className="flex gap-2">
+                        {item.localName && (
+                          <button
+                            onClick={() => setLocalNameModal({ isOpen: true, item })}
+                            className="px-3 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-1"
+                            title="현지어 표기 보기"
+                          >
+                            <span className="text-lg">🗣️</span>
+                          </button>
+                        )}
                         <button
                           onClick={() => onItemPurchase(location.id, item.id)}
                           className={`flex-1 py-3 rounded-lg transition-colors flex items-center justify-center gap-2 ${item.purchased
@@ -375,6 +390,15 @@ export function ShoppingListDetail({
 
                       {/* Action Buttons */}
                       <div className="flex gap-2">
+                        {item.localName && (
+                          <button
+                            onClick={() => setLocalNameModal({ isOpen: true, item })}
+                            className="px-3 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-1"
+                            title="현지어 표기 보기"
+                          >
+                            <span className="text-lg">🗣️</span>
+                          </button>
+                        )}
                         <button
                           onClick={() => onItemPurchase(location.id, item.id)}
                           className={`flex-1 py-3 rounded-lg transition-colors flex items-center justify-center gap-2 ${item.purchased
@@ -413,6 +437,37 @@ export function ShoppingListDetail({
           </div>
         </div>
       </div>
+
+      {/* Local Language Modal */}
+      {localNameModal.isOpen && localNameModal.item && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl transform transition-all scale-100">
+            <div className="text-center space-y-6">
+              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto text-3xl">
+                🗣️
+              </div>
+
+              <div>
+                <p className="text-sm text-gray-500 font-medium mb-2">현지 직원에게 보여주세요</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{localNameModal.item.product}</h3>
+
+                <div className="bg-gray-50 rounded-2xl p-6 border-2 border-blue-100">
+                  <p className="text-3xl font-bold text-blue-600 break-words leading-relaxed">
+                    {localNameModal.item.localName}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setLocalNameModal({ isOpen: false, item: null })}
+                className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-colors"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
