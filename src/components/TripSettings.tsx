@@ -1,4 +1,4 @@
-import { ArrowLeft, Trash2, Bell, CreditCard, Globe, HelpCircle, Users, Home, Calendar } from 'lucide-react';
+import { ArrowLeft, Trash2, Bell, CreditCard, Globe, HelpCircle, Users, Home, Calendar, Construction } from 'lucide-react';
 
 interface TripSettingsProps {
   onBack: () => void;
@@ -15,7 +15,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-4">
+    <div className="min-h-screen bg-gray-50 pb-40">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-3xl shadow-lg">
         <div className="max-w-md mx-auto p-6">
@@ -31,9 +31,12 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
 
       <div className="p-4 space-y-4 max-w-md mx-auto">
         {/* Notifications */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
-          <div className="absolute top-4 right-4 z-10">
-            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+        <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
+          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+            <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
+              <Construction className="w-6 h-6 text-orange-400" />
+            </div>
+            <span className="text-sm font-bold text-gray-600">준비 중인 기능</span>
           </div>
           <h2 className="text-lg p-4 border-b border-gray-100">알림 설정</h2>
           <div className="p-4 space-y-4">
@@ -85,9 +88,12 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* Payment & Currency */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
-          <div className="absolute top-4 right-4 z-10">
-            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+        <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
+          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+            <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
+              <Construction className="w-6 h-6 text-orange-400" />
+            </div>
+            <span className="text-sm font-bold text-gray-600">준비 중인 기능</span>
           </div>
           <h2 className="text-lg p-4 border-b border-gray-100">결제 & 화폐</h2>
           <div className="p-4 space-y-4">
@@ -110,9 +116,12 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* Trip Management */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
-          <div className="absolute top-4 right-4 z-10">
-            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+        <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
+          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+            <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
+              <Construction className="w-6 h-6 text-orange-400" />
+            </div>
+            <span className="text-sm font-bold text-gray-600">준비 중인 기능</span>
           </div>
           <h2 className="text-lg p-4 border-b border-gray-100">여행 관리</h2>
           <div className="p-4 space-y-4">
@@ -130,9 +139,12 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* About */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
-          <div className="absolute top-4 right-4 z-10">
-            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+        <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
+          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+            <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
+              <Construction className="w-6 h-6 text-orange-400" />
+            </div>
+            <span className="text-sm font-bold text-gray-600">준비 중인 기능</span>
           </div>
           <h2 className="text-lg p-4 border-b border-gray-100">정보</h2>
           <div className="p-4 space-y-4">
@@ -189,9 +201,12 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* Feature Request */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-4 opacity-60 pointer-events-none relative">
-          <div className="absolute top-4 right-4 z-10">
-            <span className="text-[10px] font-bold bg-white text-blue-600 px-2 py-1 rounded-full border border-blue-100">준비 중</span>
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-4 relative overflow-hidden">
+          <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center text-gray-500">
+            <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
+              <Construction className="w-6 h-6 text-orange-400" />
+            </div>
+            <span className="text-sm font-bold text-gray-600">준비 중인 기능</span>
           </div>
           <h3 className="mb-2">💡 기능 제안</h3>
           <p className="text-sm text-gray-600 mb-3">
@@ -202,8 +217,9 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
           </button>
         </div>
       </div>
+
       {/* Spacer for Bottom Nav */}
-      <div className="h-32 w-full" aria-hidden="true"></div>
+      <div className="h-32 w-full"></div>
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-8 py-3 flex justify-around items-center z-50 pb-6 md:pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <button

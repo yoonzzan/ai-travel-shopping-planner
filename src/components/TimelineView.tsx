@@ -89,7 +89,7 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans pb-4">
+    <div className="min-h-screen bg-gray-50 font-sans pb-40">
       {/* Header */}
       <div className="bg-blue-600 bg-gradient-to-b from-blue-600 to-purple-600 text-white p-6 pb-12 rounded-b-[2.5rem] shadow-xl relative overflow-hidden z-10">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
@@ -409,8 +409,10 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
         </div>
       </div>
 
+
+
       {/* Spacer for Bottom Nav */}
-      <div className="h-32 w-full" aria-hidden="true"></div>
+      <div className="h-32 w-full"></div>
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-8 py-3 flex justify-around items-center z-50 pb-6 md:pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
