@@ -146,6 +146,8 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             const shoppingPlan = await generateShoppingPlan(travelInfo);
 
             // Regenerate IDs to ensure uniqueness (fix for potential AI duplicate IDs)
+            shoppingPlan.dutyFree.departure.id = 'departure';
+            shoppingPlan.dutyFree.arrival.id = 'arrival';
             shoppingPlan.dutyFree.departure.items.forEach(item => item.id = crypto.randomUUID());
             shoppingPlan.dutyFree.arrival.items.forEach(item => item.id = crypto.randomUUID());
             Object.values(shoppingPlan.cityShopping).forEach(location => {

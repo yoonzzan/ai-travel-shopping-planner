@@ -166,8 +166,8 @@ export default function App() {
 
         // Find all locations that belong to this city
         const cityLocations = Object.values(shoppingPlan.cityShopping).filter(loc => {
-          const normalizedName = loc.location.split('(')[0].trim();
-          return normalizedName === cityName;
+          const locCityNames = loc.location.split(',').map(s => s.trim());
+          return locCityNames.includes(cityName);
         });
 
         if (cityLocations.length > 0) {
