@@ -280,52 +280,54 @@ export function HomePage({
             </button>
 
             {/* 2. City Shopping Cards */}
-            {Object.entries(cityGroups).map(([cityName, locations]) => {
-              const totalCityItems = locations.reduce((sum, l) => sum + l.items.length, 0);
-              const totalCitySubtotal = locations.reduce((sum, l) => sum + l.subtotal, 0);
-              const days = locations.map(l => l.day).filter((d): d is number => d !== undefined).sort((a, b) => a - b);
-              const dayDisplay = formatDayRanges(days);
+            {Object.entries(cityGroups)
+              .filter(([cityName]) => !cityName.includes('면세점')) // Filter out duty free shops from city list
+              .map(([cityName, locations]) => {
+                const totalCityItems = locations.reduce((sum, l) => sum + l.items.length, 0);
+                const totalCitySubtotal = locations.reduce((sum, l) => sum + l.subtotal, 0);
+                const days = locations.map(l => l.day).filter((d): d is number => d !== undefined).sort((a, b) => a - b);
+                const dayDisplay = formatDayRanges(days);
 
-              return (
-                <button
-                  key={`merged_${cityName}`}
-                  onClick={() => onLocationSelect({
-                    id: `merged_${cityName}`,
-                    location: cityName,
-                    day: days[0],
-                    timing: `여행 중`,
-                    items: locations.flatMap(l => l.items),
-                    subtotal: totalCitySubtotal,
-                    tips: locations.flatMap(l => l.tips || []),
-                    route: '',
-                    warnings: locations.flatMap(l => l.warnings || [])
-                  })}
-                  className="w-full bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all active:scale-[0.98] group"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-purple-100 transition-colors">
-                        <span className="text-xl">🏙️</span>
+                return (
+                  <button
+                    key={`merged_${cityName}`}
+                    onClick={() => onLocationSelect({
+                      id: `merged_${cityName}`,
+                      location: cityName,
+                      day: days[0],
+                      timing: `여행 중`,
+                      items: locations.flatMap(l => l.items),
+                      subtotal: totalCitySubtotal,
+                      tips: locations.flatMap(l => l.tips || []),
+                      route: '',
+                      warnings: locations.flatMap(l => l.warnings || [])
+                    })}
+                    className="w-full bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all active:scale-[0.98] group"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-purple-100 transition-colors">
+                          <span className="text-xl">🏙️</span>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-bold text-gray-900 text-base mb-1">{cityName}</h4>
+                          <p className="text-xs text-gray-500 font-medium mb-2">여행 중 ({dayDisplay})</p>
+                          <p className="text-sm text-gray-600">총 {totalCityItems}개 아이템</p>
+                        </div>
                       </div>
-                      <div className="text-left">
-                        <h4 className="font-bold text-gray-900 text-base mb-1">{cityName}</h4>
-                        <p className="text-xs text-gray-500 font-medium mb-2">여행 중 ({dayDisplay})</p>
-                        <p className="text-sm text-gray-600">총 {totalCityItems}개 아이템</p>
-                      </div>
+                      <span className="font-bold text-blue-600">
+                        {totalCitySubtotal.toLocaleString()}원
+                      </span>
                     </div>
-                    <span className="font-bold text-blue-600">
-                      {totalCitySubtotal.toLocaleString()}원
-                    </span>
-                  </div>
-                  <div className="mt-4 w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                    <div
-                      className="h-full bg-purple-500 rounded-full"
-                      style={{ width: `${totalCityItems > 0 ? (locations.reduce((sum, l) => sum + l.items.filter(i => i.purchased).length, 0) / totalCityItems) * 100 : 0}%` }}
-                    ></div>
-                  </div>
-                </button>
-              );
-            })}
+                    <div className="mt-4 w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                      <div
+                        className="h-full bg-purple-500 rounded-full"
+                        style={{ width: `${totalCityItems > 0 ? (locations.reduce((sum, l) => sum + l.items.filter(i => i.purchased).length, 0) / totalCityItems) * 100 : 0}%` }}
+                      ></div>
+                    </div>
+                  </button>
+                );
+              })}
 
             {/* 3. Arrival Duty Free */}
             <button
@@ -358,7 +360,7 @@ export function HomePage({
         </div>
 
         {/* Spacer for Bottom Nav and FAB */}
-        <div className="h-40 w-full" aria-hidden="true"></div>
+        <div className="h-48 w-full" aria-hidden="true"></div>
       </div>
 
       {/* Floating Action Button (FAB) */}

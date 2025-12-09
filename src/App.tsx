@@ -214,7 +214,7 @@ export default function App() {
         updatedLocation = shoppingPlan.cityShopping[selectedLocation.id];
       }
 
-      if (updatedLocation) {
+      if (updatedLocation && JSON.stringify(updatedLocation) !== JSON.stringify(selectedLocation)) {
         setSelectedLocation(updatedLocation);
       }
     }

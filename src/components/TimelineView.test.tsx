@@ -69,7 +69,7 @@ describe('TimelineView', () => {
         expect(screen.getByText(/2일차/)).toBeDefined();
 
         // Check for "Departure" and "Arrival" related markers
-        expect(screen.getByText(/마지막 날/)).toBeDefined(); // Arrival
+        expect(screen.getByText(/인천공항 입국 면세점/)).toBeDefined(); // Arrival
     });
 
     it('displays all items in the timeline', () => {

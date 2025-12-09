@@ -122,3 +122,4 @@ dist
 # Vite
 dist/
 .vercel
+build/
