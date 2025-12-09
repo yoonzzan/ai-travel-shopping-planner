@@ -1,7 +1,7 @@
 import type { TravelInfo, ShoppingPlan, ShoppingItem } from '../types';
 
 export function generateMockShoppingPlan(travelInfo: TravelInfo): ShoppingPlan {
-  const { destination, budget, preferences } = travelInfo;
+  const { budget, preferences } = travelInfo;
 
   // Generate items based on preferences
   const dutyFreeItems: ShoppingItem[] = [];
@@ -176,7 +176,7 @@ export function generateMockShoppingPlan(travelInfo: TravelInfo): ShoppingPlan {
     dutyFree: {
       departure: {
         id: 'departure',
-        location: '인천공항 면세점 (출국장)',
+        location: '공항 면세점 (출국장)',
         timing: '출발일 09:00 - 10:00 (60분)',
         items: dutyFreeItems,
         subtotal: dutyFreeDepartureTotal,
@@ -188,7 +188,7 @@ export function generateMockShoppingPlan(travelInfo: TravelInfo): ShoppingPlan {
       },
       arrival: {
         id: 'arrival',
-        location: '인천공항 면세점 (입국장)',
+        location: '공항 면세점 (입국장)',
         timing: '귀국일 18:00 (30분)',
         items: arrivalItems,
         subtotal: dutyFreeArrivalTotal,
@@ -227,10 +227,10 @@ export function generateMockShoppingPlan(travelInfo: TravelInfo): ShoppingPlan {
     },
     timeline: [
       '출발 1주 전: 온라인 면세점 사전 주문',
-      '출발 당일 09:00: 인천공항 면세점 (60분)',
+      '출발 당일 09:00: 공항 면세점 (60분)',
       '2일차 15:00: 차이나타운 (90분)',
       '3일차 14:00: 시암 스퀘어 (120분)',
-      '귀국 당일 18:00: 인천공항 입국장 픽업 (30분)',
+      '귀국 당일 18:00: 공항 입국장 픽업 (30분)',
     ],
   };
 }

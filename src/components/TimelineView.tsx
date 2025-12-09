@@ -131,7 +131,7 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="p-4 border-b border-gray-50 bg-blue-50/30">
                   <div className="flex justify-between items-center">
-                    <h4 className="font-bold text-gray-900">인천공항 출국 면세점</h4>
+                    <h4 className="font-bold text-gray-900">출국 면세점</h4>
                     <span className="font-bold text-blue-600">
                       {shoppingPlan.dutyFree.departure.subtotal.toLocaleString()}원
                     </span>
@@ -303,7 +303,7 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
                 <div className="p-4 border-b border-gray-50 bg-blue-50/30">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-bold text-gray-900">인천공항 입국 면세점</h4>
+                      <h4 className="font-bold text-gray-900">입국 면세점</h4>
                     </div>
                     <span className="font-bold text-blue-600">
                       {shoppingPlan.dutyFree.arrival.subtotal.toLocaleString()}원

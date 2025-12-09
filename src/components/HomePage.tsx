@@ -261,7 +261,7 @@ export function HomePage({
                     <span className="text-xl">✈️</span>
                   </div>
                   <div className="text-left">
-                    <h4 className="font-bold text-gray-900 text-base mb-1">인천공항 면세점 (출국)</h4>
+                    <h4 className="font-bold text-gray-900 text-base mb-1">공항 면세점 (출국)</h4>
                     <p className="text-xs text-gray-500 font-medium mb-2">출국 전</p>
                     <p className="text-sm text-gray-600">{shoppingPlan.dutyFree.departure.items.length}개 아이템</p>
                   </div>
@@ -340,7 +340,7 @@ export function HomePage({
                     <span className="text-xl">🛬</span>
                   </div>
                   <div className="text-left">
-                    <h4 className="font-bold text-gray-900 text-base mb-1">인천공항 면세점 (입국)</h4>
+                    <h4 className="font-bold text-gray-900 text-base mb-1">공항 면세점 (입국)</h4>
                     <p className="text-xs text-gray-500 font-medium mb-2">입국 후</p>
                     <p className="text-sm text-gray-600">{shoppingPlan.dutyFree.arrival.items.length}개 아이템</p>
                   </div>
