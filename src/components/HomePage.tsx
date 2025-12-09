@@ -61,14 +61,17 @@ export function HomePage({
   const totalItemsCount = allItems.length;
   const purchasedItemsCount = allItems.filter(i => i.purchased).length;
 
-  // Group city shopping by city name (splitting comma-separated locations)
+  // Group city shopping by city name (splitting comma-separated locations and ignoring parentheses)
   const cityGroups = Object.values(shoppingPlan.cityShopping).reduce((acc, location) => {
-    const cityNames = location.location.split(',').map(s => s.trim()).filter(Boolean);
-    cityNames.forEach(cityName => {
-      if (!acc[cityName]) {
-        acc[cityName] = [];
+    const rawCityNames = location.location.split(',').map(s => s.trim()).filter(Boolean);
+    rawCityNames.forEach(rawName => {
+      // Extract main city name (before parenthesis)
+      const mainCityName = rawName.split('(')[0].trim();
+
+      if (!acc[mainCityName]) {
+        acc[mainCityName] = [];
       }
-      acc[cityName].push(location);
+      acc[mainCityName].push(location);
     });
     return acc;
   }, {} as Record<string, typeof shoppingPlan.cityShopping[keyof typeof shoppingPlan.cityShopping][]>);
@@ -288,6 +291,12 @@ export function HomePage({
                 const days = locations.map(l => l.day).filter((d): d is number => d !== undefined).sort((a, b) => a - b);
                 const dayDisplay = formatDayRanges(days);
 
+                // Extract sub-locations (text inside parentheses)
+                const subLocations = Array.from(new Set(locations.map(l => {
+                  const match = l.location.match(/\((.*?)\)/);
+                  return match ? match[1] : '';
+                }).filter(Boolean))).join(', ');
+
                 return (
                   <button
                     key={`merged_${cityName}`}
@@ -311,7 +320,10 @@ export function HomePage({
                         </div>
                         <div className="text-left">
                           <h4 className="font-bold text-gray-900 text-base mb-1">{cityName}</h4>
-                          <p className="text-xs text-gray-500 font-medium mb-2">여행 중 ({dayDisplay})</p>
+                          <p className="text-xs text-gray-500 font-medium mb-1">여행 중 ({dayDisplay})</p>
+                          {subLocations && (
+                            <p className="text-xs text-gray-400 mb-2 truncate max-w-[180px]">{subLocations}</p>
+                          )}
                           <p className="text-sm text-gray-600">총 {totalCityItems}개 아이템</p>
                         </div>
                       </div>

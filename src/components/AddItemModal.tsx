@@ -197,8 +197,8 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                             className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
                         >
                             <optgroup label="면세점">
-                                <option value="departure">✈️ 출국 면세점 ({shoppingPlan.dutyFree.departure.location})</option>
-                                <option value="arrival">🛬 입국 면세점 ({shoppingPlan.dutyFree.arrival.location})</option>
+                                <option value="departure">✈️ 출국 면세점</option>
+                                <option value="arrival">🛬 입국 면세점</option>
                             </optgroup>
                             <optgroup label="현지 쇼핑 (일차별)">
                                 {travelInfo?.schedule ? (
@@ -211,14 +211,14 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                                         if (existingLocs.length > 0) {
                                             return existingLocs.map((loc) => (
                                                 <option key={loc.id} value={loc.id}>
-                                                    📅 {loc.day}일차 - {loc.location}
+                                                    📅 {loc.day}일차 - {loc.location.split('(')[0].trim()}
                                                 </option>
                                             ));
                                         } else {
                                             // No existing location for this day, allow creating one
                                             return (
                                                 <option key={`new-${s.day}`} value={`NEW:${s.day}:${s.location}`}>
-                                                    📅 {s.day}일차 - {s.location}
+                                                    📅 {s.day}일차 - {s.location.split('(')[0].trim()}
                                                 </option>
                                             );
                                         }
@@ -228,7 +228,7 @@ export function AddItemModal({ isOpen, onClose, onAdd, onEdit, onDelete, shoppin
                                         .sort((a, b) => (a.day || 0) - (b.day || 0))
                                         .map((loc) => (
                                             <option key={loc.id} value={loc.id}>
-                                                📅 {loc.day}일차 - {loc.location}
+                                                📅 {loc.day}일차 - {loc.location.split('(')[0].trim()}
                                             </option>
                                         ))
                                 )}
