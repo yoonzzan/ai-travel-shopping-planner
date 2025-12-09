@@ -15,7 +15,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen bg-gray-50 pb-32">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-3xl shadow-lg">
         <div className="max-w-md mx-auto p-6">

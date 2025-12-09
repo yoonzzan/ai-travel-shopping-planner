@@ -44,7 +44,7 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
   }, {} as Record<number, typeof shoppingPlan.cityShopping[keyof typeof shoppingPlan.cityShopping][]>);
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans pb-24">
+    <div className="min-h-screen bg-gray-50 font-sans pb-32">
       {/* Header */}
       <div className="bg-blue-600 bg-gradient-to-b from-blue-600 to-purple-600 text-white p-6 pb-12 rounded-b-[2.5rem] shadow-xl relative overflow-hidden z-10">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
