@@ -15,7 +15,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-32">
+    <div className="min-h-screen bg-gray-50 pb-4">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-3xl shadow-lg">
         <div className="max-w-md mx-auto p-6">
@@ -187,6 +187,8 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
           </button>
         </div>
       </div>
+      {/* Spacer for Bottom Nav */}
+      <div className="h-32 w-full" aria-hidden="true"></div>
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-8 py-3 flex justify-around items-center z-50 pb-6 md:pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <button
