@@ -19,16 +19,22 @@
 
 4.  **🗺️ 타임라인 & 동선 최적화**
     *   여행 일차별로 쇼핑할 수 있는 최적의 장소와 아이템을 타임라인 형태로 제공합니다.
+    *   **공유 기능 (New!)**: 타임라인을 이미지로 캡처하여 친구들과 공유하거나 저장할 수 있습니다.
 
-5.  **🗣️ 현지어 소통 지원 (New!)**
+5.  **🗣️ 현지어 소통 지원**
     *   쇼핑 시 현지 상인에게 바로 보여줄 수 있도록 **상품명을 현지어(태국어, 일본어 등)로 변환**하여 보여줍니다.
     *   아이템 카드의 '🗣️' 버튼을 누르면 큰 글씨의 현지어 카드가 팝업됩니다.
+
+6.  **📱 최적화된 UI/UX**
+    *   하단 네비게이션 바와 콘텐츠가 겹치지 않도록 레이아웃을 개선했습니다.
+    *   도시별 그룹핑 로직을 개선하여 같은 도시 내 세부 지역 이동도 깔끔하게 보여줍니다.
 
 ## 🛠️ 기술 스택
 
 *   **Frontend**: React, TypeScript, Vite, Tailwind CSS
 *   **Backend**: Vercel Serverless Functions (Node.js)
 *   **AI**: Google Gemini 2.5 Flash (Generative AI)
+*   **Utilities**: `html-to-image` (이미지 캡처), `lucide-react` (아이콘)
 *   **Deployment**: Vercel
 
 ## 🚀 설치 및 실행 방법
@@ -79,7 +85,8 @@ src/
 │   ├── OnboardingFlow.tsx  # 여행 정보 입력 및 파일 업로드
 │   ├── HomePage.tsx        # 메인 대시보드 (예산, 진행률)
 │   ├── ShoppingListDetail.tsx # 상세 쇼핑 리스트 및 아이템 관리
-│   ├── TimelineView.tsx    # 타임라인 뷰
+│   ├── TimelineView.tsx    # 타임라인 뷰 (공유 기능 포함)
+│   ├── TripSettings.tsx    # 설정 화면
 │   ├── LiveShopping.tsx    # 실시간 쇼핑 모드
 │   └── FileUpload.tsx      # 파일 업로드 및 파싱 UI
 ├── utils/
@@ -121,6 +128,7 @@ api/
 
 ## 📝 최신 업데이트 내역
 
+*   **v1.4.0**: 타임라인 이미지 공유 기능 추가, 설정 화면 UI 개선, 도시 그룹핑 로직 고도화
 *   **v1.3.0**: 현지어 표기 기능 추가, 로딩 애니메이션 개선, UI 최적화
 *   **v1.2.0**: 예산 준수 로직 강화 (AI가 예산을 초과하지 않도록 엄격 제어)
 *   **v1.1.0**: 이미지 업로드 방식을 클라이언트 직접 호출로 변경 (Vercel 500 에러 해결)

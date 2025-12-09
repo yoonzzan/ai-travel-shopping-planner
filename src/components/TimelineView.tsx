@@ -1,4 +1,6 @@
-import { ArrowLeft, ShoppingBag, Plane, Calendar, CreditCard, Home, Users } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { toPng } from 'html-to-image';
+import { ArrowLeft, ShoppingBag, Plane, Calendar, CreditCard, Home, Users, Share2, Loader2 } from 'lucide-react';
 import type { TravelInfo, ShoppingPlan, Screen } from '../types';
 
 interface TimelineViewProps {
@@ -43,6 +45,49 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
     return acc;
   }, {} as Record<number, typeof shoppingPlan.cityShopping[keyof typeof shoppingPlan.cityShopping][]>);
 
+  const [isSharing, setIsSharing] = useState(false);
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  const handleShare = async () => {
+    if (!timelineRef.current) return;
+
+    try {
+      setIsSharing(true);
+
+      // Capture the timeline using html-to-image
+      const dataUrl = await toPng(timelineRef.current, {
+        cacheBust: true,
+        backgroundColor: '#F9FAFB', // bg-gray-50
+        pixelRatio: 3, // Increase resolution for better quality
+      });
+
+      // Convert data URL to Blob
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], 'travel-shopping-timeline.png', { type: 'image/png' });
+
+      // Use Web Share API if available
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: '여행 쇼핑 타임라인',
+          text: '나의 여행 쇼핑 계획을 확인해보세요!',
+          files: [file],
+        });
+      } else {
+        // Fallback: Download image
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'travel-shopping-timeline.png';
+        link.click();
+      }
+    } catch (error) {
+      console.error('Error sharing timeline:', error);
+      alert('공유하기에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsSharing(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-4">
       {/* Header */}
@@ -51,10 +96,19 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/4 pointer-events-none"></div>
 
         <div className="relative z-10 max-w-md mx-auto">
-          <button onClick={onBack} className="flex items-center gap-2 mb-6 hover:opacity-80 transition-opacity text-white">
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">뒤로</span>
-          </button>
+          <div className="flex justify-between items-center mb-6">
+            <button onClick={onBack} className="flex items-center gap-2 hover:opacity-80 transition-opacity text-white">
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-medium">뒤로</span>
+            </button>
+            <button
+              onClick={handleShare}
+              disabled={isSharing}
+              className="p-2 bg-white/20 backdrop-blur-md rounded-full hover:bg-white/30 transition-colors disabled:opacity-50"
+            >
+              {isSharing ? <Loader2 className="w-5 h-5 text-white animate-spin" /> : <Share2 className="w-5 h-5 text-white" />}
+            </button>
+          </div>
 
           <div className="flex items-start gap-4 mb-2">
             <div className="p-3 bg-white/20 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg">
@@ -77,7 +131,7 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
       </div>
 
       {/* Timeline Content - Two Column Layout */}
-      <div className="px-4 -mt-4 relative z-0 max-w-md mx-auto">
+      <div ref={timelineRef} className="px-4 -mt-4 relative z-0 max-w-md mx-auto pb-8">
         <div className="space-y-0">
 
           {/* 1. Preparation Phase: D-7 */}

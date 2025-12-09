@@ -31,7 +31,10 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
 
       <div className="p-4 space-y-4 max-w-md mx-auto">
         {/* Notifications */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
+          <div className="absolute top-4 right-4 z-10">
+            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+          </div>
           <h2 className="text-lg p-4 border-b border-gray-100">알림 설정</h2>
           <div className="p-4 space-y-4">
             <div className="flex items-center justify-between">
@@ -82,7 +85,10 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* Payment & Currency */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
+          <div className="absolute top-4 right-4 z-10">
+            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+          </div>
           <h2 className="text-lg p-4 border-b border-gray-100">결제 & 화폐</h2>
           <div className="p-4 space-y-4">
             <button className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
@@ -104,7 +110,10 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* Trip Management */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
+          <div className="absolute top-4 right-4 z-10">
+            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+          </div>
           <h2 className="text-lg p-4 border-b border-gray-100">여행 관리</h2>
           <div className="p-4 space-y-4">
             <button
@@ -121,7 +130,10 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* About */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-xl shadow-md overflow-hidden opacity-60 pointer-events-none relative">
+          <div className="absolute top-4 right-4 z-10">
+            <span className="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full border border-gray-200">준비 중</span>
+          </div>
           <h2 className="text-lg p-4 border-b border-gray-100">정보</h2>
           <div className="p-4 space-y-4">
             <button className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
@@ -177,7 +189,10 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
         </div>
 
         {/* Feature Request */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-4">
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-4 opacity-60 pointer-events-none relative">
+          <div className="absolute top-4 right-4 z-10">
+            <span className="text-[10px] font-bold bg-white text-blue-600 px-2 py-1 rounded-full border border-blue-100">준비 중</span>
+          </div>
           <h3 className="mb-2">💡 기능 제안</h3>
           <p className="text-sm text-gray-600 mb-3">
             더 나은 서비스를 위해 여러분의 의견을 들려주세요!
