@@ -72,9 +72,17 @@ export default async function handler(req: Request) {
       - Focus on "Must-Buy" items, local specialties, and famous souvenirs.
       - Avoid generic suggestions like "Chocolate" or "T-shirt". Instead, suggest specific brands or famous products.
       - Consider the user's budget and interests.
-      - **BALANCED RECOMMENDATION STRATEGY (MAX 30% GUIDE)**:
-        1. **Guide Recommendations (Max 30%)**: Select **ONLY 2-3 items** from the provided "LOCAL GUIDE RECOMMENDATIONS". Do NOT exceed this number. Mark their source as "guide".
-        2. **AI Recommendations (Min 70%)**: The majority of items MUST be your own unique suggestions based on current trends. Mark their source as "ai".
+      - **BALANCED RECOMMENDATION STRATEGY (STRICT LIMIT)**:
+        1. **Guide Recommendations (MAXIMUM 3 ITEMS TOTAL)**: 
+           - You MUST select NO MORE THAN 3 items from the "LOCAL GUIDE RECOMMENDATIONS" section.
+           - This is a HARD LIMIT. Even if there are 50 guide items available, you can ONLY use 3.
+           - Mark their source as "guide".
+           - Choose the most popular and essential items only.
+        2. **AI Recommendations (MINIMUM 70% of total items)**: 
+           - The MAJORITY of your recommendations MUST be your own unique suggestions.
+           - Mark their source as "ai".
+           - These should be based on current trends, viral products, and traveler favorites.
+      - **Example**: If you recommend 10 total items, AT MOST 3 can be from guide (30%), and AT LEAST 7 must be AI suggestions (70%).
       - **Variety is Key**: Do not fill the list with guide items. We want fresh, trendy AI suggestions.
       
       **PRICE INSTRUCTION**:
@@ -242,6 +250,82 @@ export default async function handler(req: Request) {
       });
     }
 
+    // 3.5. ENFORCE GUIDE ITEM LIMIT (MAX 3 ITEMS TOTAL)
+    // Count and limit guide items across all locations
+    let guideItemCount = 0;
+    const allLocations = [
+      json.dutyFree?.departure,
+      json.dutyFree?.arrival,
+      ...Object.values(json.cityShopping || {})
+    ].filter(Boolean);
+
+    // First pass: count guide items
+    for (const location of allLocations) {
+      if (location.items) {
+        guideItemCount += location.items.filter((item: any) => item.source === 'guide').length;
+      }
+    }
+
+    // If guide items exceed 3, remove excess (keep highest priority)
+    if (guideItemCount > 3) {
+      console.log(`[Guide Limit] Found ${guideItemCount} guide items, reducing to 3...`);
+
+      // Collect all guide items with their location reference
+      const guideItems: Array<{ item: any; location: any; index: number }> = [];
+      for (const location of allLocations) {
+        if (location.items) {
+          location.items.forEach((item: any, index: number) => {
+            if (item.source === 'guide') {
+              guideItems.push({ item, location, index });
+            }
+          });
+        }
+      }
+
+      // Sort by priority (high > medium > low)
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      guideItems.sort((a, b) => {
+        const priorityA = priorityOrder[a.item.priority as keyof typeof priorityOrder] || 0;
+        const priorityB = priorityOrder[b.item.priority as keyof typeof priorityOrder] || 0;
+        return priorityB - priorityA;
+      });
+
+      // Keep only top 3, remove the rest
+      const itemsToRemove = guideItems.slice(3);
+      for (const { location, item } of itemsToRemove) {
+        const index = location.items.indexOf(item);
+        if (index > -1) {
+          location.items.splice(index, 1);
+          location.subtotal -= (item.estimatedPrice || 0);
+          console.log(`[Guide Limit] Removed guide item: ${item.product}`);
+        }
+      }
+
+      // Recalculate totals after removal
+      dutyFreeTotal = 0;
+      cityShoppingTotal = 0;
+
+      if (json.dutyFree?.departure?.items) {
+        const subtotal = json.dutyFree.departure.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+        json.dutyFree.departure.subtotal = subtotal;
+        dutyFreeTotal += subtotal;
+      }
+      if (json.dutyFree?.arrival?.items) {
+        const subtotal = json.dutyFree.arrival.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+        json.dutyFree.arrival.subtotal = subtotal;
+        dutyFreeTotal += subtotal;
+      }
+      if (json.cityShopping) {
+        Object.values(json.cityShopping).forEach((location: any) => {
+          if (location.items) {
+            const subtotal = location.items.reduce((sum: number, item: any) => sum + (item.estimatedPrice || 0), 0);
+            location.subtotal = subtotal;
+            cityShoppingTotal += subtotal;
+          }
+        });
+      }
+    }
+
     // 4. Update Budget Summary (Initial Calculation)
     json.budgetSummary = {
       dutyFree: dutyFreeTotal,
@@ -249,6 +333,7 @@ export default async function handler(req: Request) {
       total: dutyFreeTotal + cityShoppingTotal,
       remaining: (travelInfo.budget || 0) - (dutyFreeTotal + cityShoppingTotal)
     };
+
 
     // ---------------------------------------------------------
     // 🛡️ STRICT BUDGET ENFORCEMENT LOGIC (Server-Side)

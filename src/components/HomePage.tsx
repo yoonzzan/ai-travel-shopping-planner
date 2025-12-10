@@ -374,20 +374,23 @@ export function HomePage({
             </div>
           </div>
 
-          {/* Floating Action Button (FAB) - Fixed Position */}
-          <div className="fixed bottom-24 right-5 z-50">
-            <button
-              onClick={onAddItem}
-              className="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:scale-105 transition-all active:scale-95 flex items-center justify-center"
-              aria-label="쇼핑 아이템 추가하기"
-            >
-              <Plus className="w-8 h-8" />
-            </button>
-          </div>
-
           {/* Spacer for Bottom Nav and FAB */}
           <div className="h-48 w-full" aria-hidden="true"></div>
         </div>
+      </div>
+
+      {/* Floating Action Button (FAB) - Fixed Position */}
+      <div
+        className="fixed z-[9999]"
+        style={{ bottom: '6.5rem', right: '1.5rem' }}
+      >
+        <button
+          onClick={onAddItem}
+          className="w-12 h-12 bg-white text-blue-600 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all active:scale-95 flex items-center justify-center border border-gray-200"
+          aria-label="쇼핑 아이템 추가하기"
+        >
+          <Plus className="w-5 h-5" strokeWidth={2.5} />
+        </button>
       </div>
 
       {/* Bottom Navigation */}
