@@ -15,7 +15,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-40">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-3xl shadow-lg">
         <div className="max-w-md mx-auto p-6">
@@ -32,7 +32,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
       <div className="p-4 space-y-4 max-w-md mx-auto">
         {/* Notifications */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
-          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+          <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center text-gray-500">
             <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
               <Construction className="w-6 h-6 text-orange-400" />
             </div>
@@ -89,7 +89,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
 
         {/* Payment & Currency */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
-          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+          <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center text-gray-500">
             <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
               <Construction className="w-6 h-6 text-orange-400" />
             </div>
@@ -117,7 +117,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
 
         {/* Trip Management */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
-          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+          <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center text-gray-500">
             <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
               <Construction className="w-6 h-6 text-orange-400" />
             </div>
@@ -140,7 +140,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
 
         {/* About */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden relative">
-          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-md flex flex-col items-center justify-center text-gray-500">
+          <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center text-gray-500">
             <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
               <Construction className="w-6 h-6 text-orange-400" />
             </div>
@@ -202,7 +202,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
 
         {/* Feature Request */}
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-4 relative overflow-hidden">
-          <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center text-gray-500">
+          <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center text-gray-500">
             <div className="bg-white/80 p-3 rounded-full shadow-sm mb-2">
               <Construction className="w-6 h-6 text-orange-400" />
             </div>
@@ -219,7 +219,7 @@ export function TripSettings({ onBack, onReset, onJoinTrip, onNavigate }: TripSe
       </div>
 
       {/* Spacer for Bottom Nav */}
-      <div className="h-32 w-full"></div>
+      <div className="h-48 w-full shrink-0"></div>
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-8 py-3 flex justify-around items-center z-50 pb-6 md:pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <button

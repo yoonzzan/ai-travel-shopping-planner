@@ -72,10 +72,10 @@ export default async function handler(req: Request) {
       - Focus on "Must-Buy" items, local specialties, and famous souvenirs.
       - Avoid generic suggestions like "Chocolate" or "T-shirt". Instead, suggest specific brands or famous products.
       - Consider the user's budget and interests.
-      - **BALANCED RECOMMENDATION STRATEGY (30:70 Rule)**:
-        1. **Guide Recommendations (approx. 30%)**: Select only the top 2-3 "Must-Buy" items from the provided guide data.
-        2. **AI Recommendations (approx. 70%)**: Fill the rest with UNIQUE, TRENDY, and PERSONALIZED items.
-      - **Avoid Repetition**: Do not just list everything from the guide. Curate strictly.
+      - **BALANCED RECOMMENDATION STRATEGY (MAX 30% GUIDE)**:
+        1. **Guide Recommendations (Max 30%)**: Select **ONLY 2-3 items** from the provided "LOCAL GUIDE RECOMMENDATIONS". Do NOT exceed this number. Mark their source as "guide".
+        2. **AI Recommendations (Min 70%)**: The majority of items MUST be your own unique suggestions based on current trends. Mark their source as "ai".
+      - **Variety is Key**: Do not fill the list with guide items. We want fresh, trendy AI suggestions.
       
       **PRICE INSTRUCTION**:
       - You MUST estimate the price for every item. Do NOT return 0.

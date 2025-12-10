@@ -89,7 +89,7 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans pb-40">
+    <div className="min-h-screen bg-gray-50 font-sans">
       {/* Header */}
       <div className="bg-blue-600 bg-gradient-to-b from-blue-600 to-purple-600 text-white p-6 pb-12 rounded-b-[2.5rem] shadow-xl relative overflow-hidden z-10">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
@@ -196,22 +196,23 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
                     {shoppingPlan.dutyFree.departure.items.map(item => (
                       <div
                         key={item.id}
-                        className="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="flex items-start gap-3 bg-white p-2.5 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
                         onClick={() => onUpdateItemStatus(item.id, !item.purchased, 'departure')}
                       >
                         <div
-                          className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${item.purchased
+                          className={`w-5 h-5 mt-0.5 shrink-0 self-start rounded-full border flex items-center justify-center transition-all ${item.purchased
                             ? 'bg-blue-500 border-blue-500'
                             : 'border-gray-300'
                             }`}
+                          style={{ minWidth: '1.25rem', minHeight: '1.25rem' }}
                         >
                           {item.purchased && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-3.5 h-3.5 text-white"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p
                             className={item.purchased
-                              ? "text-sm truncate text-gray-400 decoration-2"
-                              : "text-sm truncate text-gray-700 font-medium"}
+                              ? "text-sm break-words text-gray-400 decoration-2"
+                              : "text-sm break-words text-gray-700 font-medium"}
                             style={{ textDecoration: item.purchased ? 'line-through' : 'none' }}
                           >
                             {item.product}
@@ -297,23 +298,24 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
                           {location.items.map((item) => (
                             <div
                               key={item.id}
-                              className="flex justify-between items-center group cursor-pointer"
+                              className="flex justify-between items-start group cursor-pointer"
                               onClick={() => onUpdateItemStatus(item.id, !item.purchased, location.id)}
                             >
-                              <div className="flex items-center gap-3 overflow-hidden">
+                              <div className="flex items-start gap-3 overflow-hidden">
                                 <div
-                                  className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${item.purchased
+                                  className={`w-5 h-5 mt-0.5 shrink-0 self-start rounded-full border flex items-center justify-center transition-all ${item.purchased
                                     ? 'bg-blue-500 border-blue-500'
                                     : 'border-gray-300 group-hover:border-blue-400'
                                     }`}
+                                  style={{ minWidth: '1.25rem', minHeight: '1.25rem' }}
                                 >
                                   {item.purchased && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-3.5 h-3.5 text-white"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>}
                                 </div>
                                 <div className="min-w-0">
                                   <p
                                     className={item.purchased
-                                      ? "text-sm truncate text-gray-400 line-through decoration-2"
-                                      : "text-sm truncate text-gray-700 font-medium"}
+                                      ? "text-sm break-words text-gray-400 line-through decoration-2"
+                                      : "text-sm break-words text-gray-700 font-medium"}
                                     style={{ textDecoration: item.purchased ? 'line-through' : 'none' }}
                                   >
                                     {item.product}
@@ -369,22 +371,23 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
                     {shoppingPlan.dutyFree.arrival.items.map(item => (
                       <div
                         key={item.id}
-                        className="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="flex items-start gap-3 bg-white p-2.5 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
                         onClick={() => onUpdateItemStatus(item.id, !item.purchased, 'arrival')}
                       >
                         <div
-                          className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${item.purchased
+                          className={`w-5 h-5 mt-0.5 shrink-0 self-start rounded-full border flex items-center justify-center transition-all ${item.purchased
                             ? 'bg-blue-500 border-blue-500'
                             : 'border-gray-300'
                             }`}
+                          style={{ minWidth: '1.25rem', minHeight: '1.25rem' }}
                         >
                           {item.purchased && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-3.5 h-3.5 text-white"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p
                             className={item.purchased
-                              ? "text-sm truncate text-gray-400 decoration-2"
-                              : "text-sm truncate text-gray-700 font-medium"}
+                              ? "text-sm break-words text-gray-400 decoration-2"
+                              : "text-sm break-words text-gray-700 font-medium"}
                             style={{ textDecoration: item.purchased ? 'line-through' : 'none' }}
                           >
                             {item.product}
@@ -412,7 +415,7 @@ export function TimelineView({ travelInfo, shoppingPlan, onBack, onNavigate, onU
 
 
       {/* Spacer for Bottom Nav */}
-      <div className="h-32 w-full"></div>
+      <div className="h-48 w-full shrink-0"></div>
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-8 py-3 flex justify-around items-center z-50 pb-6 md:pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
